@@ -9,12 +9,21 @@ package simulation;
 import java.util.*;
 import java.lang.Integer.*;
 
-
-
+/***
+ * Title: BCD_Generator
+ * 
+ * Description: 
+ * Creates BCD equivalents of a given decimal/binary input.
+ * Uses Integer.toBinary() for decimal input for packed and unpacked conversion, thus limited only to unsigned values.
+ * Outputs for signed inputs must apply 2's complement upon use.
+ * 
+ * @author ESCALONA-RYZ01
+ *
+ */
 public class BCD_Generator {
 	/**
 	 * Returns an array of a packed BCD equivalent of a given input
-	 * @param input - Assumes clean input
+	 * @param input - Assumes clean input and in decimal
 	 * @return Packed BCD equivalent per digit of the input (String array)
 	 */
 	public String[] Packed(String input) {
@@ -23,7 +32,7 @@ public class BCD_Generator {
 	
 	/**
 	 * Returns an array of an unpacked BCD equivalent of a given input
-	 * @param input - Assumes clean input
+	 * @param input - Assumes clean input and in decimal
 	 * @return Unpacked BCD equivalent per digit of the input (String array)
 	 */
 	public String[] Unpacked(String input) {
@@ -32,7 +41,14 @@ public class BCD_Generator {
 	
 	
 //=================================================================================
+	private String[] FindDensely(String input) {
+		String[] inputArr;
+		String[] outputArr;
+		
+		return null;
+	}
 	
+	//slice input into 3s
 	
 	/**
 	 * Converts any input string into binary equivalent
@@ -72,5 +88,7 @@ public class BCD_Generator {
 			arr[i] = Integer.parseInt(input.charAt(i)+"");
 		return arr;
 	}
+	
+//===========================================================
 	
 }
