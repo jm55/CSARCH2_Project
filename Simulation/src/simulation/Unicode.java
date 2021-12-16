@@ -7,6 +7,10 @@ import java.util.*;
  * "Unicode Engine"
  * Conducts the finds the UTF equivalent of a given Unicode value.
  * 
+ * Beware that this class does not yet check the validity of the input. 
+ * It is recommended for the user to check and validate the values being entered
+ * such that is within the allowable range of UTF-8, UTF-16, UTF-32.
+ * 
  * @author Escalona, <add names of other coders and debuggers>
  *
  */
@@ -17,7 +21,7 @@ public class Unicode {
 	
 	/***
 	 * Returns the UTF8 equivalent of the input value
-	 * @param input Valid input Unicode value in hexadecimal from 0x0000 to 0x1FFFFF
+	 * @param input Valid input Unicode value in hexadecimal from 0x0000 to 0x1FFFFF, without prefix
 	 * @return UTF8 equivalent of the input value.
 	 */
 	public String GetUTF8(String input) {
@@ -68,7 +72,7 @@ public class Unicode {
 	
 	/**
 	 * Returns the UTF32 equivalent of the input value
-	 * @param input Valid input Unicode value in hexadecimal.
+	 * @param input Valid input Unicode value in hexadecimal as long as it is at most 8 hex digits.
 	 * @return UTF32 equivalent of the input value
 	 */
 	public String GetUTF32(String input) {
