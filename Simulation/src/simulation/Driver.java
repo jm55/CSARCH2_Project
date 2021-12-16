@@ -14,8 +14,11 @@ public class Driver {
 	
 	void test(){
 		Unicode u = new Unicode();
-		String input = "245D6";
-		System.out.println(input + " = " + u.GetUTF16(input));
+		String[] input = ["245D6"];
+		System.out.println("Input Unicode: ");
+		System.out.println("UTF8 = " + u.GetUTF8(input));
+		System.out.println("UTF16 = " + u.GetUTF16(input));
+		System.out.println("UTF32 = " + u.GetUTF32(input));
 	}
 	
 	void printArray(int[] input) {
