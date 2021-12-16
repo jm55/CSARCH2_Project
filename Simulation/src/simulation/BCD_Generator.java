@@ -23,7 +23,7 @@ import java.lang.Integer.*;
 public class BCD_Generator {
 	/**
 	 * Returns an array of a packed BCD equivalent of a given input
-	 * @param input - Assumes clean input and in decimal
+	 * @param input - Assumes clean input (no non-numericals) and in decimal format
 	 * @return Packed BCD equivalent per digit of the input (String array)
 	 */
 	public String[] Packed(String input) {
@@ -32,7 +32,7 @@ public class BCD_Generator {
 	
 	/**
 	 * Returns an array of an unpacked BCD equivalent of a given input
-	 * @param input - Assumes clean input and in decimal
+	 * @param input - Assumes clean input (no non-numericals) and in decimal format
 	 * @return Unpacked BCD equivalent per digit of the input (String array)
 	 */
 	public String[] Unpacked(String input) {
