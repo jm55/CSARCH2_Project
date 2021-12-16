@@ -39,16 +39,29 @@ public class BCD_Generator {
 		return Convert2Binary(input, 8);
 	}
 	
+	/**
+	 * TODO
+	 * @param input
+	 * @return
+	 */
+	public String[] DenselyPacked(String input) {
+		return null;
+	}
+	
 	
 //=================================================================================
 	private String[] FindDensely(String input) {
-		String[] inputArr;
+		String[] inputArr; //slice input into three's or 12 bits each
 		String[] outputArr;
 		
 		return null;
 	}
 	
 	//slice input into 3s
+	private String[] SplitInput(String input) {
+		
+		return null;
+	}
 	
 	/**
 	 * Converts any input string into binary equivalent
