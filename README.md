@@ -20,6 +20,7 @@ The goal of the project is to create an application that is capable of turning a
 2. I used Eclipse IDE for the project but I think pwede naman gumamit ng Visual Code (and the likes) as well.
 3. Directory path for Java files: Simulation>src>simulation
 4. Simply open and modify Driver.java's test() for testing however way you'd like.
+5. Currently the output values are hexadecimal raw, lowercased, with prefix (0x), without spacing and division. Recommended to arrange output values before use.
 
 ## Suggestions:
 1. For checking unicode validity, try determining if it is only hexadecimal and if it is within each UTF values range of acceptable inputs by converting to decimal equivalent.
