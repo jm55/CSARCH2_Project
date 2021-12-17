@@ -1,8 +1,5 @@
 package simulation;
 
-import java.util.*;
-
-
 public class Driver {
 	private static Unicode u;
 	public static void main(String[] args) {
