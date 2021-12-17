@@ -24,3 +24,7 @@ The goal of the project is to create an application that is capable of turning a
 
 ## Suggestions:
 1. For checking unicode validity, determine if it is only hexadecimal and if it is within each UTF values range of acceptable inputs by converting to decimal equivalent.
+
+## Reference:
+1. Long - https://docs.oracle.com/javase/7/docs/api/java/lang/Long.html
+2. Character - https://docs.oracle.com/javase/8/docs/api/java/lang/Character.html (Prefer to use when converting a characer directly instead of its Unicode value.)
