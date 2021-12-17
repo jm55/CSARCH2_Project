@@ -23,4 +23,4 @@ The goal of the project is to create an application that is capable of turning a
 6. Currently the output values are hexadecimal raw, lowercased, with prefix (0x), without spacing and division. Recommended to arrange output values before use.
 
 ## Suggestions:
-1. For checking unicode validity, try determining if it is only hexadecimal and if it is within each UTF values range of acceptable inputs by converting to decimal equivalent.
+1. For checking unicode validity, determine if it is only hexadecimal and if it is within each UTF values range of acceptable inputs by converting to decimal equivalent.
