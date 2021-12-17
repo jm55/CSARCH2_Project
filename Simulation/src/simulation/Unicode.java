@@ -16,7 +16,7 @@ import java.util.*;
  */
 public class Unicode {
 	public Unicode(){
-		
+		//...
 	}
 	
 	/***
@@ -66,7 +66,7 @@ public class Unicode {
 			output += Long.toHexString(left) + Long.toHexString(right);
 		}	
 		
-		//default state where input is only 0x0000 to 0xFFFF
+		//Default state where input is only from 0x0000 to 0xFFFF
 		return Resize(input, 4);
 	}
 	
@@ -81,7 +81,6 @@ public class Unicode {
 	
 	
 //===INTERNAL FUNCTIONALITY===
-	
 	
 	/**
 	 * For both binary and hexadecimal values.
@@ -119,8 +118,9 @@ public class Unicode {
 	 * @param input Hexadecimal value from 0x0000 to 0x1FFFFF
 	 * @return Byte size of the given input (1-4)
 	 */
-	private int findByteSize(String input) { //placed here incase it will be converted as public method
+	private int findByteSize(String input) {
 		/**
+		 * Byte equivalent of hexadecimal ranges
 		 * 1byte: 	0<=I<=127
 		 * 2bytes: 	128<=I<=2047
 		 * 3bytes: 	2048<=I<=65535
@@ -147,7 +147,7 @@ public class Unicode {
 	 */
 	private int findLabel(String input) {
 		/**
-		 * Decimal equivalents of the hexadecimal ranges
+		 * Label equivalents of the hexadecimal ranges
 		 * 7: 	0<=I<=127
 		 * 11: 	128<=I<=2047
 		 * 16: 	2048<=I<=65535
@@ -173,16 +173,16 @@ public class Unicode {
 	 * @return Label value of the given input (7,11,16,21)
 	 */
 	private int findLabel(int size) {
-		if(size == 1)
+		if(size == 1) //1byte
 			return 7;
-		if(size == 2)
+		if(size == 2) //2bytes
 			return 11;
-		if(size == 3)
+		if(size == 3) //3bytes
 			return 16;
-		if(size == 4)
+		if(size == 4) //4bytes
 			return 21;
 		
-		return -1;
+		return -1; //assumes invalid input
 	}
 	
 	/**
@@ -202,7 +202,7 @@ public class Unicode {
 				{-1,-1,-1,-1,-2,0,1,2,-1,-2,3,4,5,6,7,8,-1,-2,9,10,11,12,13,14,-1,-2,15,16,17,18,19,20} //11110xxx 10xxxxxx 10xxxxxx 10xxxxxx 32
 		};
 		
-		//determine master index value
+		//Determine master index value
 		int idx = 0, range = 0;
 		if(label == 7) {
 			idx = 0;
@@ -220,9 +220,8 @@ public class Unicode {
 			idx = 3;
 			range = 32;
 		}
-			
 		
-		//build the utf-8 binary string
+		//Build the UTF-8 binary string
 		for(int i = 0; i < range; i++) {
 			if(indexRef[idx][i] == -2)
 				output += "0";

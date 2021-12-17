@@ -4,21 +4,34 @@ import java.util.*;
 
 
 public class Driver {
+	private static Unicode u;
 	public static void main(String[] args) {
 		Driver d = new Driver();
-		d.test();
+		u = new Unicode();
+		//d.bruteforceTest();
 	}
 	
 	
 //TEST ZONE=================================================
 	
 	void test(){
-		Unicode u = new Unicode();
-		String[] input = ["245D6"];
-		System.out.println("Input Unicode: ");
-		System.out.println("UTF8 = " + u.GetUTF8(input));
-		System.out.println("UTF16 = " + u.GetUTF16(input));
-		System.out.println("UTF32 = " + u.GetUTF32(input));
+		String[] input = {"245D6"};
+		
+		System.out.println("Input Unicode		UTF8		UTF16		UTF32");
+		for(int i = 0; i < input.length; i++)
+			System.out.println(input[i] + "			" + u.GetUTF8(input[i]) + "	" + u.GetUTF16(input[i]) + "		" + u.GetUTF32(input[i]));
+	}
+	
+	void bruteforceTest() {
+		String minHex = "0000", maxHex = "10FFFFF";
+		System.out.println("Input Unicode		UTF8		UTF16		UTF32");
+		try {
+			for(int i = Integer.parseInt(minHex,16); i <= Integer.parseInt(maxHex,16); i++) {
+				System.out.println(Integer.toHexString(i) + "			" + this.u.GetUTF8(Integer.toHexString(i)) + "	" + this.u.GetUTF16(Integer.toHexString(i)) + "		" + this.u.GetUTF32(Integer.toHexString(i)));
+			}
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 	
 	void printArray(int[] input) {
