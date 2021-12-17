@@ -4,7 +4,8 @@ import java.lang.Integer.*;
 import java.util.*;
 
 /**
- * "Unicode Engine"
+ * Unicode
+ * 
  * Conducts the finds the UTF equivalent of a given Unicode value.
  * 
  * Beware that this class does not yet check the validity of the input. 
