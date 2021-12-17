@@ -39,7 +39,7 @@ public class Unicode {
 		//get new binary
 		binary = buildBinaryUTF8(binary, findLabel(size));
 			
-		return Long.toHexString(Long.parseLong(binary,2));
+		return Long.toHexString(Long.parseLong(binary,2)).toUpperCase();
 	}
 	
 	/***
@@ -48,11 +48,11 @@ public class Unicode {
 	 * @return UTF16 equivalent of the input value
 	 */
 	public String GetUTF16(String input) {
-		String output = "";
+		String output = Resize(input, 4); //Default state where input is only from 0x0000 to 0xFFFF
 		long numVal = Long.parseLong(input,16); 	//converts hex string into decimal equivalent
 
 		if(numVal > Long.parseLong("FFFF",16)){ //code points 0x10000-0x10FFFF
-			
+			output = "";//reset output 
 			//subtract 0x10000 to the input value
 			long tempVal = numVal - Long.parseLong("010000",16); 
 			
@@ -65,10 +65,8 @@ public class Unicode {
 			long right = Long.parseLong(binRight,2) + Long.parseLong("DC00",16);
 			
 			output += Long.toHexString(left) + Long.toHexString(right);
-		}	
-		
-		//Default state where input is only from 0x0000 to 0xFFFF
-		return Resize(input, 4);
+		}
+		return output.toUpperCase();
 	}
 	
 	/**
@@ -77,7 +75,7 @@ public class Unicode {
 	 * @return UTF32 equivalent of the input value
 	 */
 	public String GetUTF32(String input) {
-		return Resize(input, 8);
+		return Resize(input, 8).toUpperCase();
 	}
 	
 	
