@@ -10,19 +10,99 @@ package simulation;
  * such that is within the allowable range of UTF-8, UTF-16, UTF-32.
  * 
  * @author Escalona, <add names of other coders and debuggers>
- *
+ * 
  */
 public class Unicode {
-	public Unicode(){
-		//...
+	/**
+	 * Constructor with Unicode parameter required.
+	 * @param input Validated Unicode value in hexadecimal (Without prefixes)
+	 */
+	public Unicode(String input){
+		unicode = input;
+		utf8 = FindUTF8(input);
+		utf16 = FindUTF16(input);
+		utf32 = FindUTF32(input);
 	}
 	
+	/**
+	 * Constructor with no Unicode parameter required.
+	 * Do ensure to set Unicode value using SetUnicode()
+	 * prior to use of Get functions.
+	 */
+	public Unicode() {
+		utf8 = utf16 = utf32 = ""; //default state
+	}
+	
+	/**
+	 * Sets new Unicode value for conversion to equivalent UTF8,-16,-32
+	 * values.
+	 * @param input
+	 */
+	public void SetUnicode(String input){
+		unicode = input;
+		utf8 = FindUTF8(unicode);
+		utf16 = FindUTF16(unicode);
+		utf32 = FindUTF32(unicode);
+	}
+	
+	/**
+	 * Returns all UTF equivalents as a String[].
+	 * Ensure that the Unicode value was set 
+	 * prior to use, otherwise it will return an empty value.
+	 * @return String array containing UTF8,-16,-32 equivalent of the Unicode respectively, null if no Unicode was found.
+	 */
+	public String[] GetAll() {
+		String[] list = new String[3];
+		if(unicode.isEmpty())
+			return null;
+		if(utf8.isEmpty())
+			utf8 = FindUTF8(unicode);
+		if(utf16.isEmpty())
+			utf16 = FindUTF8(unicode);
+		if(utf32.isEmpty())
+			utf32 = FindUTF8(unicode);
+		list[0] = utf8;
+		list[1] = utf16;
+		list[2] = utf32;
+		return list;
+	}
+	
+	/**
+	 * Returns the computed UTF-8 value
+	 * @return UTF8 value of the Unicode
+	 */
+	public String GetUTF8() {
+		return utf8;
+	}
+	
+	/**
+	 * Returns the computed UTF-16 value
+	 * @return UTF16 value of the Unicode
+	 */
+	public String GetUTF16() {
+		return utf16;
+	}
+	
+	/**
+	 * Returns the computed UTF-16 value
+	 * @return UTF16 value of the Unicode
+	 */
+	public String GetUTF32() {
+		return utf32;
+	}
+//===INTERNAL FUNCTIONALITY===
+
+	private String unicode;
+	private String utf8;
+	private String utf16;
+	private String utf32;
+	
 	/***
-	 * Returns the UTF8 equivalent of the input value
+	 * Computes for the UTF8 equivalent of the input value
 	 * @param input Valid input Unicode value in hexadecimal from 0x0000 to 0x1FFFFF, without prefix
 	 * @return UTF8 equivalent of the input value.
 	 */
-	public String GetUTF8(String input) {
+	private String FindUTF8(String input) {
 		String output = "";
 		long numVal = Long.parseLong(input,16);
 		String binary = Long.toBinaryString(numVal);
@@ -40,11 +120,11 @@ public class Unicode {
 	}
 	
 	/***
-	 * Returns the UTF16 equivalent of the input value
+	 * Computes for the UTF16 equivalent of the input value
 	 * @param input Valid input Unicode value in hexadecimal from 0x0000 to 0x10FFFF, without prefix.
 	 * @return UTF16 equivalent of the input value
 	 */
-	public String GetUTF16(String input) {
+	private String FindUTF16(String input) {
 		String output = Resize(input, 4); //Default state where input is only from 0x0000 to 0xFFFF
 		long numVal = Long.parseLong(input,16); 	//converts hex string into decimal equivalent
 
@@ -67,16 +147,13 @@ public class Unicode {
 	}
 	
 	/**
-	 * Returns the UTF32 equivalent of the input value
+	 * Computes for the UTF32 equivalent of the input value
 	 * @param input Valid input Unicode value in hexadecimal as long as it is at most 8 hex digits.
 	 * @return UTF32 equivalent of the input value
 	 */
-	public String GetUTF32(String input) {
+	private String FindUTF32(String input) {
 		return Resize(input, 8).toUpperCase();
 	}
-	
-	
-//===INTERNAL FUNCTIONALITY===
 	
 	/**
 	 * For both binary and hexadecimal values.
