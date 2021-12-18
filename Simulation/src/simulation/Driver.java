@@ -19,7 +19,7 @@ public class Driver {
 	void test(){
 		String[] input = {"245D6"};
 		
-		System.out.println("Input Unicode, UTF8, UTF16, UTF32");
+		System.out.println("Input Unicode,UTF8,UTF16, UTF32");
 		for(int i = 0; i < input.length; i++) {
 			u.SetUnicode(input[i]);
 			System.out.println(input[i] + "," + u.GetUTF8() + "," + u.GetUTF16() + "," + u.GetUTF32());
@@ -28,8 +28,8 @@ public class Driver {
 	}
 	
 	void bruteforceTest() {
-		String minHex = "0000", maxHex = "10FF"; //Range: 0x0 to 0x10FFFFF
-		System.out.println("Input Unicode		UTF8		UTF16		UTF32");
+		String minHex = "0000", maxHex = "10F"; //Range: 0x0 to 0x10FFFFF
+		System.out.println("Input Unicode,UTF8,UTF16,UTF32");
 		try {
 			for(int i = Integer.parseInt(minHex,16); i <= Integer.parseInt(maxHex,16); i++) {
 				u.SetUnicode(Integer.toHexString(i));
