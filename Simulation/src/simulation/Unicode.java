@@ -53,14 +53,19 @@ public class Unicode {
 	 */
 	public String[] GetAll() {
 		String[] list = new String[3];
+		//no unicode value, thus cannot or didn't compute
 		if(unicode.isEmpty())
 			return null;
+		
+		//Find UTF values if for some reason it does not exist
+		//even if it should at this stage
 		if(utf8.isEmpty())
 			utf8 = FindUTF8(unicode);
 		if(utf16.isEmpty())
 			utf16 = FindUTF8(unicode);
 		if(utf32.isEmpty())
 			utf32 = FindUTF8(unicode);
+		
 		list[0] = utf8;
 		list[1] = utf16;
 		list[2] = utf32;
@@ -69,25 +74,31 @@ public class Unicode {
 	
 	/**
 	 * Returns the computed UTF-8 value
-	 * @return UTF8 value of the Unicode
+	 * @return UTF8 value of the Unicode, returns null if no Unicode was given prior to call.
 	 */
 	public String GetUTF8() {
+		if(utf8.isEmpty())
+			return null;
 		return utf8;
 	}
 	
 	/**
 	 * Returns the computed UTF-16 value
-	 * @return UTF16 value of the Unicode
+	 * @return UTF16 value of the Unicode, returns null if no Unicode was given prior to call.
 	 */
 	public String GetUTF16() {
+		if(utf16.isEmpty())
+			return null;
 		return utf16;
 	}
 	
 	/**
 	 * Returns the computed UTF-16 value
-	 * @return UTF16 value of the Unicode
+	 * @return UTF16 value of the Unicode, returns null if no Unicode was given prior to call.
 	 */
 	public String GetUTF32() {
+		if(utf32.isEmpty())
+			return null;
 		return utf32;
 	}
 //===INTERNAL FUNCTIONALITY===
