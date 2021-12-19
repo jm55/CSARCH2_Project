@@ -5,8 +5,8 @@ public class Driver {
 	public static void main(String[] args) {
 		Driver d = new Driver();
 		u = new Unicode();
-		//d.test();
-		d.bruteforceTest();
+		d.test();
+		//d.bruteforceTest();
 	}
 	
 	
@@ -17,7 +17,7 @@ public class Driver {
 	 * Formatted in CSV
 	 */
 	void test(){
-		String[] input = {"245D6"};
+		String[] input = {"245D6","1CAFE"};
 		
 		System.out.println("Input Unicode,UTF8,UTF16, UTF32");
 		for(int i = 0; i < input.length; i++) {
