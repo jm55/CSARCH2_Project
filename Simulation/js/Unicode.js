@@ -132,6 +132,7 @@ class Unicode{
     }
 
     /**
+     * PRIVATE
      * Computes for the UTF32 equivalent of the input value
      * @param {String} input Valid input Unicode value in hexadecimal as long as it is at most 8 hex digits.
      * @returns UTF32 equivalent of the input value
@@ -141,6 +142,7 @@ class Unicode{
     }
 
     /**
+     * PRIVATE
      * For both binary and hexadecimal values.
      * Adjusts the String to the specified binary/hex digits by filling in zeroes on its left side.
      * @param {String} input String value to resize, either in hexadecimal or binary.
@@ -155,6 +157,7 @@ class Unicode{
         return output+input;
     }
     /**
+     * PRIVATE
      * Finds the byte size of a given hexadecimal input.
      * @param {String} input Hexadecimal value from 0x0000 to 0x1FFFFF
      * @returns Byte size of the given input (1-4)
@@ -182,6 +185,7 @@ class Unicode{
     }
 
     /**
+     * PRIVATE
      * Determines the UTF8 label equivalent to the given the byte size
      * @param {Number} size Byte size (1,2,3,or 4)
      * @returns Label value of the given input (7,11,16,or 21)
@@ -200,6 +204,7 @@ class Unicode{
     }
 
     /**
+     * PRIVATE
      * Builds the binary equivalent of the UTF8 of the given Unicode
      * @param {String} input Unicode value that was resized to 21 binary digits where 0 MSBs are just place holders if incase not all 21 bits are not used
      * @param {Number} label Label value of the input value which will dictate the number of characters to use from input parameter.
