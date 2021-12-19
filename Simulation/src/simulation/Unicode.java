@@ -9,8 +9,6 @@
 	 * It is recommended for the user to check and validate the values being entered
 	 * such that is within the allowable range of UTF-8, UTF-16, UTF-32.
 	 * 
-	 * @author Escalona, <add names of other coders and debuggers>
-	 * 
 	 */
 	public class Unicode {
 		/**
