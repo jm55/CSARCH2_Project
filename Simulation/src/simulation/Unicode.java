@@ -253,8 +253,8 @@ public class Unicode {
 	
 	/**
 	 * Determines the UTF8 label equivalent to the given the byte size
-	 * @param input Byte size (1,2,3,4)
-	 * @return Label value of the given input (7,11,16,21)
+	 * @param input Byte size (1,2,3,or 4)
+	 * @return Label value of the given input (7,11,16,or 21)
 	 */
 	private int findLabel(int size) {
 		if(size == 1) //1byte
@@ -271,13 +271,13 @@ public class Unicode {
 	
 	/**
 	 * Builds the binary equivalent of the UTF8 of the given Unicode
-	 * @param input Unicode value that was resized to 21 binary digits
-	 * @param label Label value of the input value
+	 * @param input Unicode value that was resized to 21 binary digits where 0 LSBs are just place holders if incase not all 21 bits are not used
+	 * @param label Label value of the input value which will dictate the number of characters to use from input parameter.
 	 * @return Binary UTF8 of the input
 	 */
 	private String buildBinaryUTF8(String input, int label) {
 		String output = "";
-		//Index Reference: points to the individual characters in String binary
+		//Index Reference: points to the individual characters in String input
 		//Note that -2 and -1 represent 0 and 1 respectively
 		int[][] indexRef = {
 				{-1,14,15,16,17,18,19,20}, //0xxxxxxx 8
