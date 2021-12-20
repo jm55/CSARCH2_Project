@@ -8,7 +8,6 @@
  * such that is within the allowable range of UTF-8, UTF-16, UTF-32.
  * 
  */
-
 class Unicode{
     /**
      * Constructor with no Unicode parameter required.
@@ -254,13 +253,24 @@ class Unicode{
     }
 }
 
+/**
+ * Checker
+ * 
+ * Will manage the checking and validation of inputs 
+ * prior to conversion to equivalent UTF value.
+ */
 class Checker{
     constructor(){
         //DO NOTHING
     }
+    /**
+     * Checks and validates input value if allowed to be 
+	 * converted to equivalent UTF value.
+     * @param {String} input Unicode value without any prefixes
+     * @returns True if input is a valid Unicode value, False if otherwise.
+     */
     CheckInput(input){
         var min = parseInt("0000", 16), max = parseInt("10FFFFF",16);
-        
         //since the initial implementation
         //of regex does not work properly on all cases
         //thus the use of naive approach hehehe
@@ -272,7 +282,8 @@ class Checker{
             if((inputCaps.charCodeAt(i) < 48 || inputCaps.charCodeAt(i) > 57) && (inputCaps.charCodeAt(i) < 65 || inputCaps.charCodeAt(i) > 70))
                 return false;
         }
-
+        if(parseInt(input,16) < min || parseInt(input, 16) > max)
+            return false;
         return true;
     }
 }
