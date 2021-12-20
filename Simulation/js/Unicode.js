@@ -78,9 +78,9 @@ class Unicode{
 	 * @returns UTF32 value of the Unicode, returns null if no Unicode was given prior to call.
 	 */
     get GetUTF32(){
-        if(this.utf16.length == 0)
+        if(this.utf32.length == 0)
             return null;
-        return this.utf16;
+        return this.utf32;
     }
 
     //===INTERNAL FUNCTIONALITY===
