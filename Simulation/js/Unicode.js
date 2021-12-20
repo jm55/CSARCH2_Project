@@ -91,7 +91,9 @@ class Unicode{
      * @param {String} input 
      */
     FindUTF8(input){
-        console.log("input: ", input)
+        if(parseInt(input, 16) > parseInt("1FFFFF", 16)) //check if value is too big for UTF8
+            return "N/A";
+        
         var numVal = parseInt(input , 16); //validated, turns out that 'int' in js has x64 range
         var binary = numVal.toString(2); //validated (String)
 
@@ -252,8 +254,37 @@ class Unicode{
     }
 }
 
+class Checker{
+    constructor(){
+        //DO NOTHING
+    }
+    CheckInput(input){
+        var min = parseInt("0000", 16), max = parseInt("10FFFFF",16);
+        
+        //since the initial implementation
+        //of regex does not work properly on all cases
+        //thus the use of naive approach hehehe
+        var inputCaps = input.toUpperCase();
+
+        for(var i = 0; i < inputCaps.length; i++){
+            //65-70 = A-F
+            //48-57 = 0-9
+            if((inputCaps.charCodeAt(i) < 48 || inputCaps.charCodeAt(i) > 57) && (inputCaps.charCodeAt(i) < 65 || inputCaps.charCodeAt(i) > 70))
+                return false;
+        }
+
+        return true;
+    }
+}
+
 //TEST AREA
+let c = new Checker();
 let u = new Unicode();
-var list = ["245D6","1CAFE"];
-for(var i = 0; i < list.length; i++)
-    console.log(list[i], ",", u.FindUTF8(list[i]), ",", u.FindUTF16(list[i]), ",", u.FindUTF32(list[i]));
+var list = ["245D6","1CAFE","42069","Youtube","Meta","10FFFFF","1FFFFF"];
+for(var i = 0; i < list.length; i++){
+    if(c.CheckInput(list[i]))
+        console.log(list[i], ",", u.FindUTF8(list[i]), ",", u.FindUTF16(list[i]), ",", u.FindUTF32(list[i]));
+    else
+        console.log("Invalid input");
+}
+    

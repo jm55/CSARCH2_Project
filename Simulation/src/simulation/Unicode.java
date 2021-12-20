@@ -112,6 +112,9 @@
 		 * @return UTF8 equivalent of the input value.
 		 */
 		private String FindUTF8(String input) {
+			if(Long.parseLong(input,16) > Long.parseLong("1FFFFF",16)) //check if value is too big for UTF8
+				return "N/A";
+			
 			long numVal = Long.parseLong(input,16);
 			String binary = Long.toBinaryString(numVal);
 			
