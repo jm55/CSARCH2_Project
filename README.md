@@ -38,7 +38,8 @@ The goal of the project is to create an application that is capable of turning a
 ## Reference:
 **Java**
 1. Long - https://docs.oracle.com/javase/7/docs/api/java/lang/Long.html
-2. Character - https://docs.oracle.com/javase/8/docs/api/java/lang/Character.html (Prefer to use when converting a characer directly instead of its Unicode value.)
+2. Character - https://docs.oracle.com/javase/8/docs/api/java/lang/Character.html (Prefer to use when converting a characer directly instead of its Unicode value.)<br>
+
 **JS**
 1. parseInt - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt
 2. tOString - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toString
