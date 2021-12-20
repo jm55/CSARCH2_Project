@@ -29,7 +29,7 @@ The goal of the project is to create an application that is capable of turning a
 3. Eclipse IDE was used for the Unicode engine part of the project but I think you can use Visual Code (and the likes) as well.
 4. Directory path for Java files: Simulation>src>simulation.
 5. Simply open and modify Driver.java's test() for testing however way you'd like.
-6. Currently the output values are hexadecimal raw, lowercased, with prefix (0x), without spacing and division. Recommended to arrange output values before use.
+6. Currently the output values are hexadecimal raw, lowercased, with prefix for Java(0x), without spacing and division. Recommended to arrange output values before use.
 7. JS version also implemented for web app implementation. (Found in Simulation>js) 
 
 ## Suggestions:
