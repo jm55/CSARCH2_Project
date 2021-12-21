@@ -57,7 +57,7 @@ class Unicode{
 	 * @returns UTF8 value of the Unicode, returns null if no Unicode was given prior to call.
 	 */
     get GetUTF8(){
-        if(this.utf8.length == 0)
+        if(this.unicode.length == 0)
             return null;
         return this.utf8;
     }
@@ -67,7 +67,7 @@ class Unicode{
 	 * @returns UTF16 value of the Unicode, returns null if no Unicode was given prior to call.
 	 */
     get GetUTF16(){
-        if(this.utf16.length == 0)
+        if(this.unicode.length == 0)
             return null;
         return this.utf16;
     }
@@ -77,7 +77,7 @@ class Unicode{
 	 * @returns UTF32 value of the Unicode, returns null if no Unicode was given prior to call.
 	 */
     get GetUTF32(){
-        if(this.utf32.length == 0)
+        if(this.unicode.length == 0)
             return null;
         return this.utf32;
     }
@@ -147,13 +147,13 @@ class Unicode{
      * For both binary and hexadecimal values.
      * Adjusts the String to the specified binary/hex digits by filling in zeroes on its left side.
      * @param {String} input String value to resize, either in hexadecimal or binary.
-     * @param {Number} hexSize Number of specified hex digits
+     * @param {Number} size Number of specified binary/hex digits
      * @returns Resized equivalent of the input value
      */
-    Resize(input, hexSize){
+    Resize(input, size){
         var output = "";
-        if(input.length < hexSize)
-            for(var i = 0; i < hexSize-input.length; i++)
+        if(input.length < size)
+            for(var i = 0; i < size-input.length; i++)
                 output += "0";
         return output+input;
     }
@@ -213,6 +213,23 @@ class Unicode{
      */
     buildBinaryUTF8(input, label){
         var output = "";
+        /**
+         * Index Reference: points to the individual characters in String input
+         * Note that -2 and -1 represent 0 and 1 respectively
+         * 
+         * Given a resized binary input (w/ 21 binary digits regardless of Unicode value),
+         * it will assemble the UTF8 value by incrementing from 0->(range-1) 
+         * indices of the resulting output string. For each iteration, it will 
+         * use the char index of the input parameter to point to which and what binary digit it should use.
+         * 
+         * Example:
+         *  		  xxx(3) xxxxxx(2) xxxxxx(1) xxxxxx(0)
+         * U+245D6 == 000(3) 100100(2) 010111(1) 010110(0) (in 21 characters with effective indices of 0-20)
+         * Range: 32bits == 11110xxx(3) 10xxxxxx(2) 10xxxxxx(1) 10xxxxxx(0)
+         * Thus it will make use of the following index values:
+         * {-1,-1,-1,-1,-2,0,1,2,-1,-2,3,4,5,6,7,8,-1,-2,9,10,11,12,13,14,-1,-2,15,16,17,18,19,20}
+         *   1  1  1  1  0 0 0 0  1  0 1 0 0 1 0 0  1  0 0  1  0  1  1  1  1  0  0  1  0  1  1  0
+         */
         const indexRef = [
             [-1,14,15,16,17,18,19,20], //0xxxxxxx 8
             [-1,-1,-2,10,11,12,13,14,-1,-2,15,16,17,18,19,20], //110xxxxx 10xxxxxx 16
@@ -271,11 +288,19 @@ class Checker{
      */
     CheckInput(input){
         var min = parseInt("0000", 16), max = parseInt("10FFFFF",16);
-        //since the initial implementation
-        //of regex does not work properly on all cases
-        //thus the use of naive approach hehehe
-        var inputCaps = input.toUpperCase();
-
+        /**
+         * Will resort to Naive Approach 
+         * since the initial implementation
+         * of Regex does not work properly on all cases. 
+         * 
+         * If there are better solutions that does the same thing
+         * albeit faster, please do add.
+         * 
+         * Simply check if it only contains the characters: ABCDEF0123456789 Non-Case Sensitive
+         */
+        var inputCaps = input.toUpperCase(); //just to simplify conditions (will only check ascii values of uppercase letters and numbers)
+        if(input.length == 0)
+            return false;
         for(var i = 0; i < inputCaps.length; i++){
             //65-70 = A-F
             //48-57 = 0-9
@@ -291,11 +316,13 @@ class Checker{
 //TEST AREA
 let c = new Checker();
 let u = new Unicode();
-var list = ["245D6","1CAFE","42069","Youtube","Meta","10FFFFF","1FFFFF"];
+var list = ["245D6","1CAFE","42069","Youtube","Meta","10FFFFF","1FFFFF", ""];
+console.log("Input", "UTF8", "UTF16", "UTF32");
 for(var i = 0; i < list.length; i++){
     if(c.CheckInput(list[i]))
-        console.log(list[i], ",", u.FindUTF8(list[i]), ",", u.FindUTF16(list[i]), ",", u.FindUTF32(list[i]));
-    else
+        console.log(list[i], u.FindUTF8(list[i]), u.FindUTF16(list[i]), u.FindUTF32(list[i]));
+    else{
         console.log("Invalid input");
+    }
 }
     

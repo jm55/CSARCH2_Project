@@ -75,7 +75,7 @@
 		 * @return UTF8 value of the Unicode, returns null if no Unicode was given prior to call.
 		 */
 		public String GetUTF8() {
-			if(this.utf8.isEmpty())
+			if(this.unicode.isEmpty())
 				return null;
 			return this.utf8;
 		}
@@ -85,7 +85,7 @@
 		 * @return UTF16 value of the Unicode, returns null if no Unicode was given prior to call.
 		 */
 		public String GetUTF16() {
-			if(this.utf16.isEmpty())
+			if(this.unicode.isEmpty())
 				return null;
 			return this.utf16;
 		}
@@ -95,7 +95,7 @@
 		 * @return UTF32 value of the Unicode, returns null if no Unicode was given prior to call.
 		 */
 		public String GetUTF32() {
-			if(this.utf32.isEmpty())
+			if(this.unicode.isEmpty())
 				return null;
 			return this.utf32;
 		}
@@ -115,9 +115,9 @@
 			if(Long.parseLong(input,16) > Long.parseLong("1FFFFF",16)) //check if value is too big for UTF8
 				return "N/A";
 			
-			long numVal = Long.parseLong(input,16);
-			String binary = Long.toBinaryString(numVal);
-			
+			//convert input to longdecimal then to binary for retrieving bits
+			String binary = Long.toBinaryString(Long.parseLong(input,16)); 	
+
 			//determine byte size and initial raw length of binary
 			int size = findByteSize(input);
 			
@@ -139,10 +139,10 @@
 			String output = Resize(input, 4); //Default state where input is only from 0x0000 to 0xFFFF
 			long numVal = Long.parseLong(input,16); 	//converts hex string into decimal equivalent
 
-			if(numVal > Long.parseLong("FFFF",16)){ //code points 0x10000-0x10FFFF
+			if(numVal > Long.parseLong("FFFF",16)){ //for code points 0x10000-0x10FFFF
 				output = "";//reset output 
-				//subtract 0x10000 to the input value
-				long tempVal = numVal - Long.parseLong("010000",16); 
+				
+				long tempVal = numVal - Long.parseLong("010000",16); //subtract 0x10000 to the input value
 
 				//convert to binary and split into left and right segments
 				String binary = Resize(Long.toBinaryString(tempVal),20); //convert to binary
@@ -152,7 +152,8 @@
 				long left = Long.parseLong(binLeft,2) +  Long.parseLong("D800",16);
 				long right = Long.parseLong(binRight,2) + Long.parseLong("DC00",16);
 				
-				output += Long.toHexString(left) + Long.toHexString(right);
+				//combine resulting values as hex string
+				output += Long.toHexString(left) + Long.toHexString(right); 
 			}
 			return output.toUpperCase();
 		}
@@ -163,20 +164,20 @@
 		 * @return UTF32 equivalent of the input value
 		 */
 		private String FindUTF32(String input) {
-			return Resize(input, 8).toUpperCase();
+			return Resize(input, 8).toUpperCase(); //simply resize input to have 8 hex digits
 		}
 		
 		/**
 		 * For both binary and hexadecimal values.
 		 * Adjusts the String to the specified binary/hex digits by filling in zeroes on its left side.
 		 * @param input String value to resize, either in hexadecimal or binary.
-		 * @param hexSize Number of specified hex digits
+		 * @param size Number of specified binary/hex digits
 		 * @return Resized equivalent of the input value.
 		 */
-		private String Resize(String input, int hexSize) {
+		private String Resize(String input, int size) {
 			String output = "";
-			if(input.length() < hexSize)
-				for(int i = 0; i < hexSize-input.length(); i++)
+			if(input.length() < size)
+				for(int i = 0; i < size-input.length(); i++)
 					output += '0';
 			return output+input;
 		}
@@ -185,14 +186,14 @@
 		 * For hexadecimal only.
 		 * Adjusts the String to the specified number of hex digits by filling in zeroes on its left side.
 		 * @param input Integer value to resize. Will be converted automatically to hex equivalent.
-		 * @param hexSize Number of specified hex digits
+		 * @param size Number of specified binary/hex digits
 		 * @return Resized equivalent of the input value.
 		 */
-		private String Resize(int input, int hexSize) {
+		private String Resize(int input, int size) {
 			String converted = Integer.toHexString(input);
 			String output = "";
-			if(converted.length() < hexSize)
-				for(int i = 0; i < hexSize-converted.length(); i++)
+			if(converted.length() < size)
+				for(int i = 0; i < size-converted.length(); i++)
 					output += '0';
 			return output+converted;
 		}
@@ -277,8 +278,23 @@
 		 */
 		private String buildBinaryUTF8(String input, int label) {
 			String output = "";
-			//Index Reference: points to the individual characters in String input
-			//Note that -2 and -1 represent 0 and 1 respectively
+			/**
+			 * Index Reference: points to the individual characters in String input
+			 * Note that -2 and -1 represent 0 and 1 respectively
+			 * 
+			 * Given a resized binary input (w/ 21 binary digits regardless of Unicode value),
+			 * it will assemble the UTF8 value by incrementing from 0->(range-1) 
+			 * indices of the resulting output string. For each iteration, it will 
+			 * use the char index of the input parameter to point to which and what binary digit it should use.
+			 * 
+			 * Example:
+			 * 			  xxx(3) xxxxxx(2) xxxxxx(1) xxxxxx(0)
+			 * U+245D6 == 000(3) 100100(2) 010111(1) 010110(0) (in 21 characters with effective indices of 0-20)
+			 * Range: 32bits == 11110xxx(3) 10xxxxxx(2) 10xxxxxx(1) 10xxxxxx(0)
+			 * Thus it will make use of the following index values:
+			 * {-1,-1,-1,-1,-2,0,1,2,-1,-2,3,4,5,6,7,8,-1,-2,9,10,11,12,13,14,-1,-2,15,16,17,18,19,20}
+			 *   1  1  1  1  0 0 0 0  1  0 1 0 0 1 0 0  1  0 0  1  0  1  1  1  1  0  0  1  0  1  1  0
+			 */
 			int[][] indexRef = {
 					{-1,14,15,16,17,18,19,20}, //0xxxxxxx 8
 					{-1,-1,-2,10,11,12,13,14,-1,-2,15,16,17,18,19,20}, //110xxxxx 10xxxxxx 16
@@ -307,14 +323,13 @@
 			
 			//Build the UTF-8 binary string
 			for(int i = 0; i < range; i++) {
-				if(indexRef[idx][i] == -2)
+				if(indexRef[idx][i] == -2) //hard coded bit 0
 					output += "0";
-				else if(indexRef[idx][i] == -1)
+				else if(indexRef[idx][i] == -1) //hard coded bit 1
 					output += "1";
 				else
 					output += input.charAt(indexRef[idx][i]) + "";
 			}
-			
 			return output;
 		}
 	}

@@ -19,14 +19,19 @@ public class Driver {
 	 * Formatted in CSV
 	 */
 	void test(){
-		String[] input = {"245D6","1CAFE","42069","Youtube","Meta","10FFFFF","1FFFFF"};
+		String[] input = {"245D6","1CAFE","42069","Youtube","Meta","10FFFFF","1FFFFF",""};
 		System.out.println("Input Unicode,UTF8,UTF16, UTF32");
 		for(int i = 0; i < input.length; i++) {
 			if(c.CheckInput(input[i])) {
 				u.SetUnicode(input[i]);
 				System.out.println(input[i] + "," + u.GetUTF8() + "," + u.GetUTF16() + "," + u.GetUTF32());
-			}else
-				System.out.println("Invalid entry: " + input[i]);
+			}else {
+				System.out.print("Invalid entry: ");
+				if(input[i].isEmpty())
+					System.out.println("EMPTY INPUT");
+				else
+					System.out.println(input[i]);
+			}	
 		}
 			
 	}
