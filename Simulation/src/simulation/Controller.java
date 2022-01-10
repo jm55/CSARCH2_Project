@@ -8,13 +8,12 @@ import javax.swing.JOptionPane;
 public class Controller implements ActionListener {
 	private GUI g;
 	private Checker check;
-	private Unicode unicode;
-	private ArrayList<Unicode> outputs; //incase we have to record previous inputs and save it as a txt/csv file
+	private ArrayList<Unicode> outputs; //In case we have to record previous inputs and save it as a txt/csv file
+	
 	public Controller(GUI g) {
 		this.g = g;
 		this.g.setListener(this);
 		check = new Checker();
-		unicode = new Unicode(); //using default state since the program does not know when the user enters the unicode value.
 		outputs = new ArrayList<Unicode>();
 	}
 	
@@ -39,7 +38,7 @@ public class Controller implements ActionListener {
 			//DISPLAYING OUTPUT
 			displayOutput(outputs);
 		}
-		if(e.getActionCommand() == actionCommands[1]) {
+		if(e.getActionCommand() == actionCommands[1]) { //Saving contents of ArrayList outputs as file
 			System.out.println("Save Output");
 		}
 		if(e.getActionCommand() == actionCommands[2]) {
@@ -65,7 +64,7 @@ public class Controller implements ActionListener {
 	
 	/**
 	 * Displays the output on the Window via a CSV format
-	 * @param list ArrayList containing the computed Unicoded values being displayed.
+	 * @param list ArrayList containing the computed Unicode values being displayed.
 	 */
 	private void displayOutput(ArrayList<Unicode> list) {
 		String output = "Unicode, UTF8, UTF16, UTF32\n";

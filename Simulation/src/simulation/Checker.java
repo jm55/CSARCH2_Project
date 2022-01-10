@@ -44,11 +44,20 @@ public class Checker {
 		return input;
 	}
 	
+	/**
+	 * Simply returns whether input Unicode is valid (true) or not (false).
+	 * 
+	 * Checks and validates input value if allowed to be 
+	 * converted to equivalent UTF value.
+	 * 
+	 * It also checks if the input value contains "U+", which it will automatically
+	 * omit.
+	 * @param input
+	 * @return
+	 */
 	public boolean CheckInputBool (String input) {
 		if(CheckInput(input) != null)
 			return true;
 		return false;
 	}
-//===INTERNAL FUNCTIONALITY===
-//other private methods here
 }

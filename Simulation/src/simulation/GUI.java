@@ -22,6 +22,10 @@ public class GUI extends JFrame{
 		testMode();
 	}
 	
+	/**
+	 * Sets the listener for the program
+	 * @param c Controller object managing components the window.
+	 */
 	public void setListener(Controller c) {
 		listener = c;
 	}
@@ -33,15 +37,13 @@ public class GUI extends JFrame{
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		
+		//LABELS
 		titleLabel = createLabel(WindowTitle, newFont(Font.BOLD, 24), WIDTH/2-200,(int)(HEIGHT*.05),400,24, SwingConstants.CENTER, SwingConstants.TOP);
 		panel.add(titleLabel);
-		
 		unicodeLabel = createLabel("Unicode:", newFont(Font.BOLD, 16),32,64,128,32, SwingConstants.LEFT, SwingConstants.CENTER);
 		panel.add(unicodeLabel);
-		
 		outputLabel = createLabel("Output:", newFont(Font.BOLD, 16),256+64,64,128,32, SwingConstants.LEFT, SwingConstants.CENTER);
 		panel.add(outputLabel);
-		
 		
 		//INPUT/OUTPUT FIELDS/AREAS
 		unicodeField = createTextField(newFont(Font.PLAIN, 16),32,64+32,256,32);
@@ -66,7 +68,6 @@ public class GUI extends JFrame{
 		exitBtn = createButton("Exit",newFont(Font.BOLD,16), 32, 64*7, 256, 50, listener,"endProgram");
 		panel.add(exitBtn);
 		
-		
 		add(panel);
 		revalidate();
 	}
@@ -82,14 +83,26 @@ public class GUI extends JFrame{
 		JOptionPane.showMessageDialog(c, message, WindowTitle, type);
 	}
 	
+	/**
+	 * Returns the content of the unicodeField
+	 * @return Text in unicodeField
+	 */
 	public String getUnicodeInput() {
 		return unicodeField.getText();
 	}
 	
+	/**
+	 * Returns if input is comma separated
+	 * @return True if input is comma separated, false otherwise.
+	 */
 	public boolean isCSV() {
 		return csvCheckBox.isSelected();
 	}
 	
+	/**
+	 * Sets the display text in the window.
+	 * @param text Text to display.
+	 */
 	public void setOutputText(String text) {
 		outputArea.setText("");
 		outputArea.setText(text);
@@ -117,12 +130,12 @@ public class GUI extends JFrame{
 	
 	/**
 	 * Builds a JLabel object given the text data, font, position & size, and text alignment.
-	 * @param text Initial value of the JLabel
-	 * @param f Font of the JLabel
-	 * @param x X position of the JLabel (via JLabel.setBounds)
-	 * @param y Y position of the JLabel (via JLabel.setBounds)
-	 * @param width Width of the JLabel (via JLabel.setBounds)
-	 * @param height Height of the JLabel (via JLabel.setBounds)
+	 * @param text Initial value of the object
+	 * @param f Font of object
+	 * @param x X position of the JLabel (via setBounds)
+	 * @param y Y position of the JLabel (via setBounds)
+	 * @param width Width of the JLabel (via setBounds)
+	 * @param height Height of the JLabel (via setBounds)
 	 * @param hAlignment Horizontal alignment of the text in JLabel (e.g. "SwingConstants.LEFT", "SwingConstants.CENTER", "SwingConstants.RIGHT", "SwingConstants.LEADING", "SwingConstants.TRAILING")
 	 * @param vAlignment Vertical alignment of the text in JLabel (e.g. "SwingConstants.TOP", "SwingConstants.CENTER", "SwingConstants.BOTTOM")
 	 * @return JLabel object configured using the given basic parameters.
@@ -142,6 +155,15 @@ public class GUI extends JFrame{
 		return l;
 	}
 	
+	/**
+	 * Builds a JTextField object given the text data, font, and position & size.
+	 * @param f Font of object
+	 * @param x X position of the JLabel (via setBounds)
+	 * @param y Y position of the JLabel (via setBounds)
+	 * @param width Width of the JLabel (via setBounds)
+	 * @param height Height of the JLabel (via setBounds)
+	 * @return JTextField object configured using the given basic parameters.
+	 */
 	private JTextField createTextField(Font f, int x, int y, int width, int height) {
 		JTextField tf = new JTextField();
 		tf.setFont(f);
@@ -149,7 +171,18 @@ public class GUI extends JFrame{
 		return tf;
 	}
 	
-	
+	/**
+	 * Builds a JButton object given the text data, font, position & size, and listener. 
+	 * @param text Display text of the button
+	 * @param f Font 
+	 * @param x X position of the JLabel (via setBounds)
+	 * @param y Y position of the JLabel (via setBounds)
+	 * @param width Width of the JLabel (via setBounds)
+	 * @param height Height of the JLabel (via setBounds)
+	 * @param listener Listener of the button
+	 * @param actionCommand ActionCommand label of the button.
+	 * @return JButon object configured using the given basic parameters.
+	 */
 	private JButton createButton(String text, Font f, int x, int y, int width, int height, ActionListener listener, String actionCommand) {
 		JButton b = new JButton(text);
 		b.setFont(f);
@@ -158,7 +191,17 @@ public class GUI extends JFrame{
 		b.setActionCommand(actionCommand);
 		return b;
 	}
-	
+	/**
+	 * Builds a JCheckBox object given the text data, font, position & size, and default initial select state.
+	 * @param text Display text of the button
+	 * @param f Font 
+	 * @param x X position of the JLabel (via setBounds)
+	 * @param y Y position of the JLabel (via setBounds)
+	 * @param width Width of the JLabel (via setBounds)
+	 * @param height Height of the JLabel (via setBounds)
+	 * @param selected Default initial select state of the checkbox
+	 * @return JCheckBox object configured using the given basic parameters.
+	 */
 	private JCheckBox createCheckBox(String text, Font f, int x, int y, int width, int height, boolean selected) {
 		JCheckBox cb = new JCheckBox(text,selected);
 		cb.setFont(f);
@@ -166,11 +209,21 @@ public class GUI extends JFrame{
 		return cb;
 	}
 	
-	private JTextArea createTextArea(Font f, int x, int y, int width, int height, boolean locked) {
+	/**
+	 * Builds a JTextArea object given the text data, font, position & size, and editable state.
+	 * @param f Font 
+	 * @param x X position of the JLabel (via setBounds)
+	 * @param y Y position of the JLabel (via setBounds)
+	 * @param width Width of the JLabel (via setBounds)
+	 * @param height Height of the JLabel (via setBounds)
+	 * @param editable Set whether editable or not
+	 * @return
+	 */
+	private JTextArea createTextArea(Font f, int x, int y, int width, int height, boolean editable) {
 		JTextArea ta = new JTextArea();
 		ta.setFont(f);
 		ta.setBounds(x,y,width,height);
-		ta.setEditable(!locked);
+		ta.setEditable(editable);
 		ta.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		ta.setAutoscrolls(true);
 		ta.setLineWrap(true);
@@ -187,6 +240,9 @@ public class GUI extends JFrame{
 		return ta;
 	}
 	
+	/**
+	 * Warns if the GUI is in test mode.
+	 */
 	private void testMode(){
 		if(debug)
 			JOptionPane.showMessageDialog(null, "GUI under construction", WindowTitle, JOptionPane.INFORMATION_MESSAGE);
