@@ -16,7 +16,7 @@
 		 * @param input Validated Unicode value in hexadecimal (Without prefixes)
 		 */
 		public Unicode(String input){
-			this.unicode = input;
+			this.unicode = input.toUpperCase();
 			this.utf8 = FindUTF8(input);
 			this.utf16 = FindUTF16(input);
 			this.utf32 = FindUTF32(input);
@@ -68,6 +68,20 @@
 			list[1] = this.utf16;
 			list[2] = this.utf32;
 			return list;
+		}
+		
+		/**
+		 * Returns the CSV format of the Unicode value
+		 * @param input True if include input, false if otherwise
+		 * @return 
+		 */
+		public String GetCSV(boolean input) {
+			String[] arr = GetAll();
+			String output = "";
+			if(input)
+				output = this.unicode + ", ";
+			output += arr[0] + ", " + arr[1] + ", " + arr[2];
+			return output;
 		}
 		
 		/**

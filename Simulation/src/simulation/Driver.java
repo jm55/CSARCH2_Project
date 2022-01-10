@@ -7,8 +7,14 @@ public class Driver {
 		Driver d = new Driver();
 		u = new Unicode();
 		c = new Checker();
+		System.out.println("Testing engine...");
 		d.test();
 		//d.bruteforceTest();
+		
+		System.out.println("Initializing GUI...");
+		GUI g = new GUI();
+		Controller c = new Controller(g);
+		g.setDefaultDisplay();
 	}
 	
 	
@@ -19,18 +25,14 @@ public class Driver {
 	 * Formatted in CSV
 	 */
 	void test(){
-		String[] input = {"245D6","1CAFE","42069","Youtube","Meta","10FFFFF","1FFFFF",""};
+		String[] input = {"245D6","1CAFE","42069","Youtube","Meta","ABCDEF","10FFFFF","1FFFFF","","U+ABCDEF"};
 		System.out.println("Input Unicode,UTF8,UTF16, UTF32");
 		for(int i = 0; i < input.length; i++) {
-			if(c.CheckInput(input[i])) {
-				u.SetUnicode(input[i]);
+			if(c.CheckInput(input[i])!=null) {
+				u.SetUnicode(c.CheckInput(input[i]));
 				System.out.println(input[i] + "," + u.GetUTF8() + "," + u.GetUTF16() + "," + u.GetUTF32());
 			}else {
-				System.out.print("Invalid entry: ");
-				if(input[i].isEmpty())
-					System.out.println("EMPTY INPUT");
-				else
-					System.out.println(input[i]);
+				System.out.println("Invalid entry: " + input[i]);
 			}	
 		}
 			
