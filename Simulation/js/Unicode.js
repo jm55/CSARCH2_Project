@@ -8,7 +8,7 @@
  * such that is within the allowable range of UTF-8, UTF-16, UTF-32.
  * 
  */
-class Unicode{
+ class Unicode{
     /**
      * Constructor with no Unicode parameter required.
 	 * Do ensure to set Unicode value using SetUnicode()
@@ -299,30 +299,46 @@ class Checker{
          * Simply check if it only contains the characters: ABCDEF0123456789 Non-Case Sensitive
          */
         var inputCaps = input.toUpperCase(); //just to simplify conditions (will only check ascii values of uppercase letters and numbers)
-        if(input.length == 0)
-            return false;
+        if(inputCaps.length == 0)
+            return null;
+        if(inputCaps.length>2)
+            if(inputCaps.substring(0,2).match("U+"))
+                inputCaps = inputCaps.substring(2, inputCaps.length);
         for(var i = 0; i < inputCaps.length; i++){
-            //65-70 = A-F
-            //48-57 = 0-9
+            //65-70 = A-F & 48-57 = 0-9
             if((inputCaps.charCodeAt(i) < 48 || inputCaps.charCodeAt(i) > 57) && (inputCaps.charCodeAt(i) < 65 || inputCaps.charCodeAt(i) > 70))
-                return false;
+                return null;
         }
-        if(parseInt(input,16) < min || parseInt(input, 16) > max)
-            return false;
-        return true;
+        if(parseInt(inputCaps,16) < min || parseInt(inputCaps, 16) > max)
+            return null;
+        return inputCaps;
+    }
+
+    /**
+     * Checks and validates input value if allowed to be 
+	 * converted to equivalent UTF value.
+     * @param {String} input  Unicode value with("U+")/without prefix.
+     * @returns True if a valid Unicode (after fixing) or not. 
+     */
+    CheckInputBool(input){
+        if(this.CheckInput(input) != null)
+            return true;
+        return false;
     }
 }
 
 //TEST AREA
 let c = new Checker();
 let u = new Unicode();
-var list = ["245D6","1CAFE","42069","Youtube","Meta","10FFFFF","1FFFFF", ""];
+var list = ["245D6","1CAFE","42069","Youtube","Meta","ABCDEF","10FFFFF","1FFFFF","","U+ABCDEF"];
 console.log("Input", "UTF8", "UTF16", "UTF32");
 for(var i = 0; i < list.length; i++){
-    if(c.CheckInput(list[i]))
-        console.log(list[i], u.FindUTF8(list[i]), u.FindUTF16(list[i]), u.FindUTF32(list[i]));
+    if(c.CheckInput(list[i]) != null){
+        u.SetUnicode(c.CheckInput(list[i]));
+        console.log(list[i] + ", " + u.GetUTF8 + ", " + u.GetUTF16 + ", " + u.GetUTF32);
+    }
     else{
-        console.log("Invalid input");
+        console.log("Invalid input: " + list[i]);
     }
 }
     

@@ -52,8 +52,8 @@ public class Checker {
 	 * 
 	 * It also checks if the input value contains "U+", which it will automatically
 	 * omit.
-	 * @param input
-	 * @return
+	 * @param input Unicode value with("U+")/without prefix.
+	 * @return True if a valid Unicode (after fixing) or not. 
 	 */
 	public boolean CheckInputBool (String input) {
 		if(CheckInput(input) != null)
