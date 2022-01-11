@@ -5,7 +5,11 @@ import javax.swing.BorderFactory;
 import java.awt.*;
 import java.awt.event.*;
 
-
+/***
+ * 
+ * @author ESCALONA-LTP02
+ *
+ */
 public class GUI extends JFrame{
 	//PRIVATE GLOBAL VALUES
 	private boolean debug = false;
@@ -58,12 +62,12 @@ public class GUI extends JFrame{
 		//INPUT/OUTPUT FIELDS/AREAS
 		unicodeField = createTextField(newFont(Font.PLAIN, 16),32,64+32,256,32);
 		panel.add(unicodeField);
-		outputArea = createTextArea(newFont(Font.PLAIN, 16),256+64,64+32,656,400,true);
+		outputArea = createTextArea(newFont(Font.PLAIN, 16),256+64,64+32,656,400,false);
 		outputArea.setText("Unicode, UTF8, UTF16, UTF32\n" + "================================\n");
 		panel.add(outputArea);
 		
 		//CHECKBOX
-		csvCheckBox = createCheckBox("Comma Separated", newFont(Font.BOLD, 16),32,64*2,256,32, false);
+		csvCheckBox = createCheckBox("Comma Separated", newFont(Font.BOLD, 16),32,64*2,256,32,false);
 		panel.add(csvCheckBox);
 		
 		//BUTTONS
@@ -116,6 +120,14 @@ public class GUI extends JFrame{
 	public void setOutputText(String text) {
 		outputArea.setText("");
 		outputArea.setText(text);
+	}
+	
+	/**
+	 * Clears input and output components of the window
+	 */
+	public void clear() {
+		setOutputText("");
+		unicodeField.setText("");
 	}
 	
 	//PRIVATE METHODS

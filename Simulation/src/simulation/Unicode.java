@@ -1,6 +1,6 @@
 	package simulation;
 
-	/**
+	/***
 	 * Unicode
 	 * 
 	 * Conducts the finds the UTF equivalent of a given Unicode value.
@@ -9,6 +9,8 @@
 	 * It is recommended for the user to check and validate the values being entered
 	 * such that is within the allowable range of UTF-8, UTF-16, UTF-32.
 	 * 
+	 * @author ESCALONA-LTP02
+	 *
 	 */
 	public class Unicode {
 		/**
@@ -44,6 +46,16 @@
 		}
 		
 		/**
+		 * Returns the input Unicode value of this object.
+		 * @return Returns the inputted Unicode if available, null if otherwise.
+		 */
+		public String GetUnicode() {
+			if(this.unicode.isEmpty())
+				return null;
+			return this.unicode;
+		}
+		
+		/**
 		 * Returns all UTF equivalents as a String[].
 		 * Ensure that the Unicode value was set 
 		 * prior to use, otherwise it will return an empty value.
@@ -75,12 +87,13 @@
 		 * @param input True if include input, false if otherwise
 		 * @return 
 		 */
-		public String GetCSV(boolean input) {
+		public String GetCSV(boolean input, boolean spaced) {
 			String[] arr = GetAll();
 			String output = "";
 			if(input)
-				output = this.unicode + ", ";
-			output += arr[0] + ", " + arr[1] + ", " + arr[2];
+				output = this.unicode + spacedComma(spaced);
+			
+			output += arr[0] + spacedComma(spaced) + arr[1] + spacedComma(spaced) + arr[2];
 			return output;
 		}
 		
@@ -345,5 +358,11 @@
 					output += input.charAt(indexRef[idx][i]) + "";
 			}
 			return output;
+		}
+		
+		private String spacedComma(boolean spaced) {
+			if(spaced)
+				return ", ";
+			return ",";
 		}
 	}

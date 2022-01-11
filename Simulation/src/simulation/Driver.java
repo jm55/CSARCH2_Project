@@ -3,7 +3,7 @@ package simulation;
 public class Driver {
 	private static Unicode u;
 	private static Checker c;
-	private static boolean testMode = true;
+	private static boolean testMode = false;
 	public static void main(String[] args) {
 		Driver d = new Driver();
 		u = new Unicode();

@@ -4,7 +4,11 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
-
+/***
+ * 
+ * @author ESCALONA-LTP02
+ *
+ */
 public class Controller implements ActionListener {
 	private GUI gui;
 	private Checker check;
@@ -47,17 +51,19 @@ public class Controller implements ActionListener {
 		if(e.getActionCommand() == actionCommands[1]) { //Saving contents of ArrayList outputs as file
 			System.out.println("Save Output");
 			//If file write successful: saved = true;
+			//file.saveAsCSV(outputs);
+			file.saveAsTxt(outputs);
 		}
 		
 		if(e.getActionCommand() == actionCommands[2]) { //Clearing previous Unicode conversions
 			System.out.println("Clear List");
 			outputs.clear();
-			displayOutput(outputs);
+			gui.clear();
 		}
 		
 		if(e.getActionCommand() == actionCommands[3]) { //Displays about info of program via pop-up message.
 			System.out.println("About Program");
-			gui.popMessage(null, "CSARCH2 Project - Unicode\nGroup 7\n© 2022\n\nAlon-alon, Jason Miguel\n"
+			gui.popMessage(null, "CSARCH2 Project - Unicode\nS13 - Group 7\n© 2022\n\nAlon-alon, Jason Miguel\n"
 					+ "Cruz, Julianne Felice\n"
 					+ "De Guzman, Cyril Ethan\n"
 					+ "Escalona, Jose Miguel\n"
@@ -86,7 +92,7 @@ public class Controller implements ActionListener {
 		String output = "Unicode, UTF8, UTF16, UTF32\n";
 		output += "================================\n";
 		for(int i  = 0; i < list.size(); i++) {
-			output += list.get(i).GetCSV(true);
+			output += list.get(i).GetCSV(true,true);
 			output += "\n";
 		}
 		gui.setOutputText(output);
