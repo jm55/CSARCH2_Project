@@ -122,10 +122,16 @@ public class GUI extends JFrame{
 		outputArea.setText(text);
 	}
 	
+	public int saveAs() {
+		String[] saveOptions = {"Text File", "CSV File", "Cancel"};
+		return JOptionPane.showOptionDialog(null, "Save file as: ", "Save as", JOptionPane.DEFAULT_OPTION, 
+				JOptionPane.INFORMATION_MESSAGE, null, saveOptions, saveOptions[0]);
+	}
+	
 	/**
 	 * Clears input and output components of the window
 	 */
-	public void clear() {
+	public void clearIO() {
 		setOutputText("");
 		unicodeField.setText("");
 	}

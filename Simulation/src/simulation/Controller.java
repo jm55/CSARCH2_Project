@@ -12,14 +12,14 @@ import javax.swing.JOptionPane;
 public class Controller implements ActionListener {
 	private GUI gui;
 	private Checker check;
-	private File file;
+	private FileWriter file;
 	private ArrayList<Unicode> outputs; //In case we have to record previous inputs and save it as a txt/csv file
 	private boolean saved;
 	
 	public Controller(GUI g) {
 		this.gui = g;
 		this.gui.setListener(this);
-		file = new File();
+		file = new FileWriter();
 		check = new Checker();
 		outputs = new ArrayList<Unicode>();
 		saved = true; // initially as true since nothing changed in an empty outputs<>
@@ -51,14 +51,17 @@ public class Controller implements ActionListener {
 		if(e.getActionCommand() == actionCommands[1]) { //Saving contents of ArrayList outputs as file
 			System.out.println("Save Output");
 			//If file write successful: saved = true;
-			//file.saveAsCSV(outputs);
-			file.saveAsTxt(outputs);
+			int choice = gui.saveAs();
+			if(choice == 0)
+				saved = file.saveAsTxt(outputs);
+			if(choice == 1)
+				saved = file.saveAsCSV(outputs);
 		}
 		
 		if(e.getActionCommand() == actionCommands[2]) { //Clearing previous Unicode conversions
 			System.out.println("Clear List");
 			outputs.clear();
-			gui.clear();
+			gui.clearIO();
 		}
 		
 		if(e.getActionCommand() == actionCommands[3]) { //Displays about info of program via pop-up message.

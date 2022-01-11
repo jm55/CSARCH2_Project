@@ -28,7 +28,7 @@ public class Driver {
 		if(!testMode)
 			return;
 		System.out.println("Testing engine: List");
-		String[] input = {"245D6","1CAFE","42069","Youtube","Meta","ABCDEF","10FFFFF","1FFFFF","","U+ABCDEF"};
+		String[] input = {"245D6","1CAFE","42069","Youtube","Meta","ABCDEF","10FFFFF","1FFFFF","","U+ABCDEF"}; //245D6,1CAFE,42069,Youtube,Meta,ABCDEF,10FFFFF,1FFFFF,,U+ABCDEF
 		System.out.println("Input Unicode,UTF8,UTF16, UTF32");
 		for(int i = 0; i < input.length; i++) {
 			if(c.CheckInput(input[i])!=null) {
