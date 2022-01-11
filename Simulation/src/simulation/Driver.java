@@ -3,13 +3,13 @@ package simulation;
 public class Driver {
 	private static Unicode u;
 	private static Checker c;
+	private static boolean testMode = true;
 	public static void main(String[] args) {
 		Driver d = new Driver();
 		u = new Unicode();
 		c = new Checker();
-		System.out.println("Testing engine...");
 		d.test();
-		//d.bruteforceTest();
+		d.bruteforceTest();
 		
 		System.out.println("Initializing GUI...");
 		GUI g = new GUI();
@@ -25,6 +25,9 @@ public class Driver {
 	 * Formatted in CSV
 	 */
 	void test(){
+		if(!testMode)
+			return;
+		System.out.println("Testing engine: List");
 		String[] input = {"245D6","1CAFE","42069","Youtube","Meta","ABCDEF","10FFFFF","1FFFFF","","U+ABCDEF"};
 		System.out.println("Input Unicode,UTF8,UTF16, UTF32");
 		for(int i = 0; i < input.length; i++) {
@@ -39,7 +42,10 @@ public class Driver {
 	}
 	
 	void bruteforceTest() {
+		if(!testMode)
+			return;
 		String minHex = "0000", maxHex = "10F"; //Range: 0x0 to 0x10FFFFF
+		System.out.println("Testing engine: " + minHex + " to " + maxHex);
 		System.out.println("Input Unicode,UTF8,UTF16,UTF32");
 		try {
 			for(int i = Integer.parseInt(minHex,16); i <= Integer.parseInt(maxHex,16); i++) {

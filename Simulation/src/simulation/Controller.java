@@ -6,15 +6,19 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class Controller implements ActionListener {
-	private GUI g;
+	private GUI gui;
 	private Checker check;
+	private File file;
 	private ArrayList<Unicode> outputs; //In case we have to record previous inputs and save it as a txt/csv file
+	private boolean saved;
 	
 	public Controller(GUI g) {
-		this.g = g;
-		this.g.setListener(this);
+		this.gui = g;
+		this.gui.setListener(this);
+		file = new File();
 		check = new Checker();
 		outputs = new ArrayList<Unicode>();
+		saved = true; // initially as true since nothing changed in an empty outputs<>
 	}
 	
 	@Override
@@ -22,9 +26,9 @@ public class Controller implements ActionListener {
 		// TODO Auto-generated method stub
 		String[] actionCommands = {"checkUnicode", "saveOutput", "clearList", "aboutProgram", "endProgram"};
 		
-		if(e.getActionCommand() == actionCommands[0]) {
-			String raw_input = g.getUnicodeInput();
-			boolean CSVMode = g.isCSV();
+		if(e.getActionCommand() == actionCommands[0]) { //Checking and Converting Unicode
+			String raw_input = gui.getUnicodeInput();
+			boolean CSVMode = gui.isCSV();
 
 			//INPUT CHECKING, ACCEPTANCE, AND CONVERSION
 			if(CSVMode) {
@@ -37,18 +41,23 @@ public class Controller implements ActionListener {
 			
 			//DISPLAYING OUTPUT
 			displayOutput(outputs);
+			saved = false;
 		}
+		
 		if(e.getActionCommand() == actionCommands[1]) { //Saving contents of ArrayList outputs as file
 			System.out.println("Save Output");
+			//If file write successful: saved = true;
 		}
-		if(e.getActionCommand() == actionCommands[2]) {
+		
+		if(e.getActionCommand() == actionCommands[2]) { //Clearing previous Unicode conversions
 			System.out.println("Clear List");
 			outputs.clear();
 			displayOutput(outputs);
 		}
-		if(e.getActionCommand() == actionCommands[3]) {
+		
+		if(e.getActionCommand() == actionCommands[3]) { //Displays about info of program via pop-up message.
 			System.out.println("About Program");
-			g.popMessage(null, "CSARCH2 Project - Unicode\nGroup 7\n© 2022\n\nAlon-alon, Jason Miguel\n"
+			gui.popMessage(null, "CSARCH2 Project - Unicode\nGroup 7\n© 2022\n\nAlon-alon, Jason Miguel\n"
 					+ "Cruz, Julianne Felice\n"
 					+ "De Guzman, Cyril Ethan\n"
 					+ "Escalona, Jose Miguel\n"
@@ -56,8 +65,15 @@ public class Controller implements ActionListener {
 					+ "Roncal, Raphael\n"
 					+ "Turk, Chadi", "About", JOptionPane.INFORMATION_MESSAGE);
 		}
-		if(e.getActionCommand() == actionCommands[4]) {
+		
+		if(e.getActionCommand() == actionCommands[4]) { //Ends program
 			System.out.println("End Program");
+			
+			//If saved==false, notify user to save if needed.
+			if(!saved) {
+				System.out.println("Recent changes not saved...");
+			}
+			
 			System.exit(0);
 		}
 	}
@@ -73,7 +89,7 @@ public class Controller implements ActionListener {
 			output += list.get(i).GetCSV(true);
 			output += "\n";
 		}
-		g.setOutputText(output);
+		gui.setOutputText(output);
 	}
 	
 	/**
@@ -87,7 +103,7 @@ public class Controller implements ActionListener {
 			System.out.println("Input Accepted: " + checkedInput);
 			outputs.add(new Unicode(checkedInput));
 		}else {
-			g.popMessage(g,"Invalid input: " + input, "Invalid Input", JOptionPane.WARNING_MESSAGE);
+			gui.popMessage(null,"Invalid input: " + input, "Invalid Input", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 }

@@ -7,7 +7,17 @@ import java.awt.event.*;
 
 
 public class GUI extends JFrame{
+	//PRIVATE GLOBAL VALUES
 	private boolean debug = false;
+	private final int WIDTH = 1024, HEIGHT = 600;
+	private String WindowTitle = "CSARCH2 - Unicode";
+	private String typeFace = "Helvetica";
+	private ActionListener listener;
+	private JLabel titleLabel, unicodeLabel, outputLabel;
+	private JTextField unicodeField;
+	private JTextArea outputArea;
+	private JCheckBox csvCheckBox;
+	private JButton checkBtn, saveBtn, clearBtn, aboutBtn, exitBtn;
 	
 	/**
 	 * Default constructor that builds the window.
@@ -38,7 +48,7 @@ public class GUI extends JFrame{
 		panel.setLayout(null);
 		
 		//LABELS
-		titleLabel = createLabel(WindowTitle, newFont(Font.BOLD, 24), WIDTH/2-200,(int)(HEIGHT*.05),400,24, SwingConstants.CENTER, SwingConstants.TOP);
+		titleLabel = createLabel(WindowTitle, newFont(Font.BOLD, 24), WIDTH/2-200,24,400,32, SwingConstants.CENTER, SwingConstants.TOP);
 		panel.add(titleLabel);
 		unicodeLabel = createLabel("Unicode:", newFont(Font.BOLD, 16),32,64,128,32, SwingConstants.LEFT, SwingConstants.CENTER);
 		panel.add(unicodeLabel);
@@ -108,17 +118,7 @@ public class GUI extends JFrame{
 		outputArea.setText(text);
 	}
 	
-	
-	//PRIVATE VALUES AND METHODS
-	private final int WIDTH = 1024, HEIGHT = 600;
-	private String WindowTitle = "CSARCH2 - Unicode";
-	private String typeFace = "Calibri";
-	private ActionListener listener;
-	private JLabel titleLabel, unicodeLabel, outputLabel;
-	private JTextField unicodeField;
-	private JTextArea outputArea;
-	private JCheckBox csvCheckBox;
-	private JButton checkBtn, saveBtn, clearBtn, aboutBtn, exitBtn;
+	//PRIVATE METHODS
 	
 	private Font newFont(int style, int size) {
 		return new Font(this.typeFace, style, size);
