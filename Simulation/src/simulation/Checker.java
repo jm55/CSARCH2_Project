@@ -27,10 +27,12 @@ public class Checker {
 	public String CheckInput(String input) {
 		if(input.isEmpty())
 			return null;
+		input = input.replaceAll("\s+","");
 		if(input.length()>2)
-			if(input.substring(0,2).toUpperCase().equals("U+"))
-				input = input.substring(2, input.length()); 
-		
+			if(input.substring(0,4).toUpperCase().equals("U+0X"))
+				input = input.substring(4,input.length());
+			else if(input.substring(0,2).toUpperCase().equals("U+") || input.substring(0,2).toUpperCase().equals("0X"))
+				input = input.substring(2, input.length());
 		long min = Long.parseLong("0000", 16), max = Long.parseLong("10FFFFF",16); //RANGE LIMIT FOR UNICODE VALUES
 		
 		//will only accept hex inputs via issuing an exception call
