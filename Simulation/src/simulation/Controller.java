@@ -33,6 +33,9 @@ public class Controller implements ActionListener {
 		if(e.getActionCommand() == actionCommands[0]) { //Checking and Converting Unicode
 			String raw_input = gui.getUnicodeInput();
 			boolean CSVMode = gui.isCSV();
+			
+			if(easterEgg(raw_input) && !CSVMode) //easter egg function
+				return;
 
 			//INPUT CHECKING, ACCEPTANCE, AND CONVERSION
 			if(CSVMode) {
@@ -85,6 +88,25 @@ public class Controller implements ActionListener {
 			
 			System.exit(0);
 		}
+	}
+	
+	private boolean easterEgg(String input) {
+		gui.popMessage(null, "Bruteforce Function Activated!", "Easter Egg", JOptionPane.INFORMATION_MESSAGE);
+		ArrayList<String> bruteOut = new ArrayList<String>();
+		if(input.replaceAll("\s+","").equals("01100010011100100111010101110100011001010110011001101111011100100110001101100101") || input.toLowerCase().equals("bruteforce")) {
+			String minHex = check.CheckInput(gui.inputDialog("Starting value (From U+00): "));
+			String maxHex = check.CheckInput(gui.inputDialog("End Value (Up to U+10FFFFF): "));
+			System.out.println("Bruteforce: " + minHex + " to " + maxHex);
+			try {
+				for(int i = Integer.parseInt(minHex,16); i <= Integer.parseInt(maxHex,16); i++)
+					outputs.add(new Unicode(Integer.toHexString(i)));
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
+			displayOutput(outputs);
+			return true;
+		}else
+			return false;
 	}
 	
 	/**

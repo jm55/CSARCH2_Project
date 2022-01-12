@@ -20,6 +20,7 @@ public class GUI extends JFrame{
 	private JLabel titleLabel, unicodeLabel, outputLabel;
 	private JTextField unicodeField;
 	private JTextArea outputArea;
+	private JScrollPane outputScroll;
 	private JCheckBox csvCheckBox;
 	private JButton checkBtn, saveBtn, clearBtn, aboutBtn, exitBtn;
 	
@@ -63,8 +64,9 @@ public class GUI extends JFrame{
 		unicodeField = createTextField(newFont(Font.PLAIN, 16),32,64+32,256,32);
 		panel.add(unicodeField);
 		outputArea = createTextArea(newFont(Font.PLAIN, 16),256+64,64+32,656,400,false);
+		outputScroll = createScrollPane(outputArea);
 		outputArea.setText("Unicode, UTF8, UTF16, UTF32\n" + "================================\n");
-		panel.add(outputArea);
+		panel.add(outputScroll);
 		
 		//CHECKBOX
 		csvCheckBox = createCheckBox("Comma Separated", newFont(Font.BOLD, 16),32,64*2,256,32,false);
@@ -95,6 +97,15 @@ public class GUI extends JFrame{
 	 */
 	public void popMessage(Component c, String message, String title, int type) {
 		JOptionPane.showMessageDialog(c, message, WindowTitle, type);
+	}
+	
+	/**
+	 * Shows a simple input pop-up message.
+	 * @param message Message to ask the user.
+	 * @return User entry to input dialog.
+	 */
+	public String inputDialog(String message) {
+		return JOptionPane.showInputDialog(message);
 	}
 	
 	/**
@@ -243,13 +254,7 @@ public class GUI extends JFrame{
 		ta.setBounds(x,y,width,height);
 		ta.setEditable(editable);
 		ta.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		ta.setAutoscrolls(true);
 		ta.setLineWrap(true);
-		
-		JScrollPane scroll = new JScrollPane(ta);
-		scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		scroll.setBounds(50, 100, WIDTH-125, 250);
 		
 		if(debug) {
 			ta.setText(lorem_ipsum);
@@ -257,6 +262,16 @@ public class GUI extends JFrame{
 		
 		return ta;
 	}
+	
+	private JScrollPane createScrollPane(JTextArea ta) {
+		JScrollPane scroll = new JScrollPane(ta);
+		scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		scroll.setBounds(ta.getX(), ta.getY(), ta.getWidth(), ta.getHeight());
+		return scroll;
+	}
+	
+	
 	
 	/**
 	 * Warns if the GUI is in test mode.
