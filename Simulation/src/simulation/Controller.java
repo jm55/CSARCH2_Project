@@ -34,7 +34,7 @@ public class Controller implements ActionListener {
 			String raw_input = gui.getUnicodeInput();
 			boolean CSVMode = gui.isCSV();
 			
-			if(easterEgg(raw_input) && !CSVMode) //easter egg function
+			if(easterEgg(raw_input)) //easter egg function
 				return;
 
 			//INPUT CHECKING, ACCEPTANCE, AND CONVERSION
