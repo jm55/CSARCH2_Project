@@ -47,7 +47,7 @@ public class Controller implements ActionListener {
 			}
 			
 			//DISPLAYING OUTPUT
-			displayOutput(outputs);
+			displayOutput(outputs);		
 			saved = false;
 		}
 		
@@ -69,7 +69,7 @@ public class Controller implements ActionListener {
 		
 		if(e.getActionCommand() == actionCommands[3]) { //Displays about info of program via pop-up message.
 			System.out.println("About Program");
-			gui.popMessage(null, "CSARCH2 Project - Unicode\nS13 - Group 7\n� 2022\n\nAlon-alon, Jason Miguel\n"
+			gui.popMessage(null, "CSARCH2 Project - Unicode\nS13 - Group 7\n© 2022\n\nAlon-alon, Jason Miguel\n"
 					+ "Cruz, Julianne Felice\n"
 					+ "De Guzman, Cyril Ethan\n"
 					+ "Escalona, Jose Miguel\n"
