@@ -25,7 +25,7 @@ The goal of the project is to create an application that is capable of turning a
 
 ## Outputs:
 1. Uses in part CSV format in display, and in whole in file.
-2. Fill will either be in a Text or CSV file format containing: Input Unicode, UTF-8, UTF-16, and UTF-32.
+2. Fill will either be in a Text or CSV file format containing: Input Unicode, UTF-8, UTF-16, UTF-32, Character.
 
 ## Easter Egg:
 Given the correct keyword on the input on the Unicode entry, the system may automatically run through all increments of a given Unicode value from its start to end values.
