@@ -69,7 +69,7 @@ public class Controller implements ActionListener {
 		
 		if(e.getActionCommand() == actionCommands[3]) { //Displays about info of program via pop-up message.
 			System.out.println("About Program");
-			gui.popMessage(null, "CSARCH2 Project - Unicode\nS13 - Group 7\n© 2022\n\nAlon-alon, Jason Miguel\n"
+			gui.popMessage(null, "CSARCH2 Project - Unicode\nS13 - Group 7\nï¿½ 2022\n\nAlon-alon, Jason Miguel\n"
 					+ "Cruz, Julianne Felice\n"
 					+ "De Guzman, Cyril Ethan\n"
 					+ "Escalona, Jose Miguel\n"
@@ -90,6 +90,15 @@ public class Controller implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Easter Egg
+	 * 
+	 * Enter the correct 'keyword' then it proceeds with a bruteforce attempt of running through every Unicode value specified by user.
+	 * 
+	 * Keyword: bruteforce (any case) or its binary equivalent (must be exact)
+	 * @param input Keyword input of user.
+	 * @return True when valid for Easter Egg, false if otherwise.
+	 */
 	private boolean easterEgg(String input) {
 		ArrayList<String> bruteOut = new ArrayList<String>();
 		if(input.replaceAll("\s+","").equals("01100010011100100111010101110100011001010110011001101111011100100110001101100101") || input.toLowerCase().equals("bruteforce")) {
@@ -113,7 +122,7 @@ public class Controller implements ActionListener {
 	 * @param list ArrayList containing the computed Unicode values being displayed.
 	 */
 	private void displayOutput(ArrayList<Unicode> list) {
-		String output = "Unicode, UTF8, UTF16, UTF32\n";
+		String output = "Unicode, UTF8, UTF16, UTF32, Character\n";
 		output += "================================\n";
 		for(int i  = 0; i < list.size(); i++) {
 			output += list.get(i).GetCSV(true,true);

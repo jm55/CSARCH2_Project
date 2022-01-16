@@ -52,7 +52,8 @@ public class FileWriter {
 			tempOutput = "Input: " + u.GetUnicode() + "\n";
 			tempOutput += "UTF-8: " + u.GetUTF8() + "\n";
 			tempOutput += "UTF-16: " + u.GetUTF16() + "\n";
-			tempOutput += "UTF-32: " + u.GetUTF32() + "\n\n";
+			tempOutput += "UTF-32: " + u.GetUTF32() + "\n";
+			tempOutput += "Character: " + u.GetChar() + "\n\n";
 			output.add(tempOutput);
 		}
 		DemoPrint(output.toArray(new String[output.size()]));

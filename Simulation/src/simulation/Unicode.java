@@ -22,6 +22,7 @@
 			this.utf8 = FindUTF8(input);
 			this.utf16 = FindUTF16(input);
 			this.utf32 = FindUTF32(input);
+			this.unicodeChar = FindChar(input);
 		}
 		
 		/**
@@ -31,6 +32,7 @@
 		 */
 		public Unicode() {
 			this.utf8 = this.utf16 = this.utf32 = ""; //default state
+			this.unicodeChar = '\0';
 		}
 		
 		/**
@@ -43,6 +45,7 @@
 			this.utf8 = FindUTF8(this.unicode);
 			this.utf16 = FindUTF16(this.unicode);
 			this.utf32 = FindUTF32(this.unicode);
+			this.unicodeChar = FindChar(this.unicode);
 		}
 		
 		/**
@@ -62,7 +65,7 @@
 		 * @return String array containing UTF8,-16,-32 equivalent of the Unicode respectively, null if no Unicode was found.
 		 */
 		public String[] GetAll() {
-			String[] list = new String[3];
+			String[] list = new String[4];
 			//no unicode value, thus cannot or didn't compute
 			if(unicode.isEmpty())
 				return null;
@@ -73,12 +76,15 @@
 				this.utf8 = FindUTF8(unicode);
 			if(this.utf16.isEmpty())
 				this.utf16 = FindUTF16(unicode);
-			if(utf32.isEmpty())
+			if(this.utf32.isEmpty())
 				this.utf32 = FindUTF32(unicode);
+			if(this.unicodeChar == '\0')
+				this.unicodeChar = FindChar(unicode);
 			
 			list[0] = this.utf8;
 			list[1] = this.utf16;
 			list[2] = this.utf32;
+			list[3] = this.unicodeChar + "";
 			return list;
 		}
 		
@@ -93,7 +99,7 @@
 			if(input)
 				output = this.unicode + spacedComma(spaced);
 			
-			output += arr[0] + spacedComma(spaced) + arr[1] + spacedComma(spaced) + arr[2];
+			output += arr[0] + spacedComma(spaced) + arr[1] + spacedComma(spaced) + arr[2] + spacedComma(spaced) + arr[3];
 			return output;
 		}
 		
@@ -126,34 +132,55 @@
 				return null;
 			return this.utf32;
 		}
+		
+		/**
+		 * Returns the equivalent char of the Unicode value
+		 * @return Char equivalent of the Unicode, returns null if no Unicode was given prior to call.
+		 */
+		public char GetChar() {
+			if(this.unicode.isEmpty())
+				return '\0';
+			return this.unicodeChar;
+		}
 	//===INTERNAL FUNCTIONALITY===
 
 		private String unicode;
 		private String utf8;
 		private String utf16;
 		private String utf32;
+		private char unicodeChar;
+		
+		/**
+		 * Returns the equivalent character for a given hexadecimal Unicode value
+		 * @param input Valid Unicode value in hexadecimal
+		 * @return Character equivalent of the input Unicode value
+		 */
+		private char FindChar(String input) {
+			long val = Long.parseLong(input,16);
+			return (char)val;
+		}
 		
 		/***
 		 * Computes for the UTF8 equivalent of the input value
-		 * @param input Valid input Unicode value in hexadecimal from 0x0000 to 0x1FFFFF, without prefix
-		 * @return UTF8 equivalent of the input value.
+		 * @param input Valid Unicode value in hexadecimal from 0x0000 to 0x1FFFFF, without prefix
+		 * @return UTF8 equivalent of the input Unicode value.
 		 */
 		private String FindUTF8(String input) {
 			if(Long.parseLong(input,16) > Long.parseLong("1FFFFF",16)) //check if value is too big for UTF8
 				return "N/A";
-			
+
 			//convert input to longdecimal then to binary for retrieving bits
 			String binary = Long.toBinaryString(Long.parseLong(input,16)); 	
-
+			
 			//determine byte size and initial raw length of binary
 			int size = findByteSize(input);
 			
 			//resize binary to 21 bits regardless of label/# of bytes
 			binary = Resize(binary, 21);
-			
+
 			//get new binary
 			binary = buildBinaryUTF8(binary, findLabel(size));
-				
+
 			return Long.toHexString(Long.parseLong(binary,2)).toUpperCase();
 		}
 		
@@ -323,7 +350,7 @@
 			 *   1  1  1  1  0 0 0 0  1  0 1 0 0 1 0 0  1  0 0  1  0  1  1  1  1  0  0  1  0  1  1  0
 			 */
 			int[][] indexRef = {
-					{-1,14,15,16,17,18,19,20}, //0xxxxxxx 8
+					{-2,14,15,16,17,18,19,20}, //0xxxxxxx 8
 					{-1,-1,-2,10,11,12,13,14,-1,-2,15,16,17,18,19,20}, //110xxxxx 10xxxxxx 16
 					{-1,-1,-1,-2,5,6,7,8,-1,-2,9,10,11,12,13,14,-1,-2,15,16,17,18,19,20}, //1110xxxx 10xxxxxx 10xxxxxx 24
 					{-1,-1,-1,-1,-2,0,1,2,-1,-2,3,4,5,6,7,8,-1,-2,9,10,11,12,13,14,-1,-2,15,16,17,18,19,20} //11110xxx 10xxxxxx 10xxxxxx 10xxxxxx 32
@@ -360,6 +387,11 @@
 			return output;
 		}
 		
+		/**
+		 * Prints comma and space combination (i.e. "," or ", ") whenever spaced is True
+		 * @param spaced Indicates if a space should follow the comma
+		 * @return String of comma or spaced-comma
+		 */
 		private String spacedComma(boolean spaced) {
 			if(spaced)
 				return ", ";

@@ -65,7 +65,7 @@ public class GUI extends JFrame{
 		panel.add(unicodeField);
 		outputArea = createTextArea(newFont(Font.PLAIN, 16),256+64,64+32,656,400,false);
 		outputScroll = createScrollPane(outputArea);
-		outputArea.setText("Unicode, UTF8, UTF16, UTF32\n" + "================================\n");
+		outputArea.setText("Unicode, UTF8, UTF16, UTF32, Character\n" + "================================\n");
 		panel.add(outputScroll);
 		
 		//CHECKBOX
