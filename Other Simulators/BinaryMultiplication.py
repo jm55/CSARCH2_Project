@@ -1,5 +1,6 @@
 #Python implementation of Binary Multiplication for CSARCH2
 #Done for fun but also as practice for examinations and coding.
+#It does not however follow the specifications for actual projects.
 #エスカローナミゲル
 import os
 
