@@ -1,9 +1,47 @@
 import os
-from tkinter.simpledialog import askinteger
 
 def non_restoring():
     clear()
     print("Non-Restoring Division")
+    q = Dec2Bin(askInt("Q (Dividend): "))
+    m = Dec2Bin(askInt("M (Divisor): "))
+    m = "0" + m
+    a = fill(len(m)+1,m[0:1])
+    a,m = resize(a,m)
+    mneg = two_complement(m)
+    passes = len(q)
+    
+    print("=============================")
+    print("Q: ", q)
+    print("M: ", m)
+    print("")
+    a_len = len(a)
+    q_len = len(q)
+    for i in range(passes):
+        print("Pass: ", i+1)
+        print("Before: A: ", a, ", Q: ", q, ", M: ", m, ", -M: ", mneg)
+        a_msb = a[0:1]
+        a,q = shift_left(a,q) #shift left
+        if(a_msb == "1"):
+            a = Dec2Bin(Bin2Dec(a) + Bin2Dec(m))
+        else:
+            a = Dec2Bin(Bin2Dec(a) + Bin2Dec(mneg))
+        if(len(a) < a_len): #adjusting binary str lengths
+            a = fill(a_len-len(a),a[0:1]) + a
+        a_complement = -1
+        if(a[0:1] == "1"):
+            a_complement = "0"
+        else:
+            a_complement = "1"
+        q = q + a_complement
+        print("After: A: ", a, ", Q: ", q, ", M: ", m, ", -M: ", mneg)
+        print("")
+    if(Bin2Dec(a) < 0):
+        a = Dec2Bin(Bin2Dec(a) + Bin2Dec(m))
+    if(len(a) < a_len): #adjusting binary str lengths
+            a = fill(a_len-len(a),a[0:1]) + a
+    print("Remainder: ", a , "(", Bin2Dec(a), ")")
+    print("Quotient: ", q, "(", Bin2Dec(q), ")")
 
 def restoring():
     clear()
@@ -25,22 +63,17 @@ def restoring():
     for i in range(passes):
         print("Pass: ", i+1)
         print("Before: A: ", a, ", Q: ", q, ", M: ", m, ", -M: ", mneg)
-
-        a,q = shift_left(a,q)
-
-        a = Dec2Bin(Bin2Dec(a) + Bin2Dec(mneg))
-        if(len(a) < a_len):
+        a,q = shift_left(a,q) #shift left
+        a = Dec2Bin(Bin2Dec(a) + Bin2Dec(mneg)) #a<-a-m
+        if(len(a) < a_len): #adjusting binary str lengths
             a = fill(a_len-len(a),a[0:1]) + a
-
-        if(a[0:1]=="1"):
+        if(a[0:1]=="1"): #Amsb=1, a<-a+m, Q0=0
             a = Dec2Bin(Bin2Dec(a) + Bin2Dec(m))
             if(len(a) < a_len):
                 a = fill(a_len-len(a),a[0:1]) + a
             q = q + "0"
-        else:
+        else: #Amsb=0, Q0=1
             q = q + "1"
-
-
         print("After: A: ", a, ", Q: ", q, ", M: ", m, ", -M: ", mneg)
         print("")
     print("Remainder: ", a , "(", Bin2Dec(a), ")")
