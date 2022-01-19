@@ -5,6 +5,7 @@ def non_restoring():
     print("Non-Restoring Division")
     q = Dec2Bin(askInt("Q (Dividend): "))
     m = Dec2Bin(askInt("M (Divisor): "))
+    q = q[1:]
     m = "0" + m
     a = fill(len(m)+1,m[0:1])
     a,m = resize(a,m)
@@ -48,6 +49,7 @@ def restoring():
     print("Restoring Division")
     q = Dec2Bin(askInt("Q (Dividend): "))
     m = Dec2Bin(askInt("M (Divisor): "))
+    q = q[1:]
     m = "0" + m
     a = fill(len(m)+1,m[0:1])
     a,m = resize(a,m)
