@@ -109,13 +109,6 @@ def booth():
     print("Booth Equivalent: ", nOut)
     print("Rules:\n0*m=0\n1*m=m\n-1*m=-m")
 
-"""Returns an int casted input with a given message
-:param message: message to display when asking for number (int)
-:returns: casted int of input
-"""
-def askInt(message):
-    return int(input(message))
-
 """Returns a spaced Booth equivalent of a given binary value
 :param n: binary number to be converted to booth equivalent
 :returns: Booth equivalent of n (e.g. "+1 0 -1 0")
@@ -131,17 +124,6 @@ def getBoothEquivalent(n):
         elif(subset=="10"):
             nOut = nOut + "-1 "
     return nOut
-
-"""Returns a filler str value using the given parameters/specifications
-:param size: length of the filler string
-:param value: value to be used for filling
-:returns: filler str obj
-"""
-def fill(size, value):
-    out = ""
-    for i in range(size):
-        out=out+str(value)
-    return out
 
 """Converts a binary to decimal equivalent; Accepts signed integers
 :param binary: binary value to be converted
@@ -253,6 +235,24 @@ def two_complement(binary):
             if(i == "1"):
                 output = output + "0"
     return ''.join(reversed(output))
+
+"""Returns a filler str value using the given parameters/specifications
+:param size: length of the filler string
+:param value: value to be used for filling
+:returns: filler str obj
+"""
+def fill(size, value):
+    out = ""
+    for i in range(size):
+        out=out+str(value)
+    return out
+
+"""Returns an int casted input with a given message
+:param message: message to display when asking for number (int)
+:returns: casted int of input
+"""
+def askInt(message):
+    return int(input(message))
 
 """Like a macro for cls in the terminal (works only on os terminals and not on python IDLE)
 """
