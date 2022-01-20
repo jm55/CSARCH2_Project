@@ -12,8 +12,29 @@ import java.io.*;
  */
 public class FileWriter {
 	private static boolean DemoPrint = false;
+	private ArrayList<Unicode> list;
+	
 	public FileWriter() {
 		//N/A
+	}
+	
+	public FileWriter(ArrayList<Unicode> list) {
+		this.list = new ArrayList<Unicode>();
+		this.list = (ArrayList<Unicode>) list.clone();
+	}
+	
+	/**
+	 * Saves list of Unicode objects as CSV
+	 * Format:
+	 * Input Unicode, UTF-8, UTF-16, UTF-32
+	 * 
+	 * Assumes constructor used was one with parameter ArrayList Unicode list
+	 * @return True if saving successful, false if otherwise
+	 */
+	public boolean saveAsCSV() {
+		if(list.isEmpty())
+			return false;
+		return saveAsCSV(this.list);
 	}
 	
 	/**
@@ -31,6 +52,25 @@ public class FileWriter {
 		
 		DemoPrint(output);
 		return saveFile(output, ".csv");
+	}
+	
+	/**
+	 * Saves list of Unicode objects as TXT
+	 * Format:
+	 * Input: [Input]
+	 * UTF-8: [UTF-8]
+	 * UTF-16: [UTF-16]
+	 * UTF-32: [UTF-32]
+	 * 
+	 * Assumes constructor used was one with parameter ArrayList Unicode list
+	 * @param list Unicode List
+	 * @return True if saving successful, false if otherwise.
+	 * @return
+	 */
+	public boolean saveAsTxt() {
+		if(list.isEmpty())
+			return false;
+		return saveAsTxt(this.list);
 	}
 	
 	/**
@@ -75,7 +115,7 @@ public class FileWriter {
 		File f = jf.getSelectedFile();
 
 		//save a file
-		if(selection == jf.APPROVE_OPTION) {
+		if(selection == JFileChooser.APPROVE_OPTION) {
 			System.out.println("Saving file as " + extension);			
 			
 			if(f == null) //file does not exist

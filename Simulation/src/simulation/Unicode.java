@@ -207,7 +207,7 @@
 				long right = Long.parseLong(binRight,2) + Long.parseLong("DC00",16);
 				
 				//combine resulting values as hex string
-				output += Long.toHexString(left) + Long.toHexString(right); 
+				output = Long.toHexString(left) + Long.toHexString(right); 
 			}
 			return output.toUpperCase();
 		}
@@ -312,16 +312,18 @@
 		 * @return Label value of the given input (7,11,16,or 21)
 		 */
 		private int findLabel(int size) {
-			if(size == 1) //1byte
+			switch(size) {
+			case 1:
 				return 7;
-			if(size == 2) //2bytes
+			case 2:
 				return 11;
-			if(size == 3) //3bytes
+			case 3:
 				return 16;
-			if(size == 4) //4bytes
+			case 4:
 				return 21;
-			
-			return -1; //assumes invalid input
+			default:
+				return -1;
+			}
 		}
 		
 		/**

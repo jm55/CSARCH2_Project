@@ -100,7 +100,6 @@ public class Controller implements ActionListener {
 	 * @return True when valid for Easter Egg, false if otherwise.
 	 */
 	private boolean easterEgg(String input) {
-		ArrayList<String> bruteOut = new ArrayList<String>();
 		if(input.replaceAll("\s+","").equals("01100010011100100111010101110100011001010110011001101111011100100110001101100101") || input.toLowerCase().equals("bruteforce")) {
 			String minHex = check.CheckInput(gui.inputDialog("Starting value (From U+00): "));
 			String maxHex = check.CheckInput(gui.inputDialog("End Value (Up to U+10FFFFF): "));

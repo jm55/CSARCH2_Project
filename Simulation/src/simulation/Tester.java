@@ -10,6 +10,8 @@ public class Tester {
 	static ArrayList<String> utf16;
 	static ArrayList<String> utf32;
 	static Checker c;
+	static String BAR = "=========================================================="; 
+	static Scanner cscan;
 	
 	
 	public static void main(String[] args) {
@@ -19,21 +21,28 @@ public class Tester {
 		utf16 = new ArrayList<String>();
 		utf32 = new ArrayList<String>();
 		
-		Scanner cscan = new Scanner(System.in);
-		System.out.println("Tester\n\nUse CSV file for input and expected outputs. Format are as follows:\nUnicode,UTF-8,UTF-16,UTF-32\nPlease include the header: \"Unicode,UTF-8,UTF-16,UTF-32\""
-				+ " as the first line of the file.\n\n");
-		System.out.print("Enter filename.csv and file directory (use \\ instead of /) if not on root: ");
-		String filename = cscan.nextLine();
+		cscan = new Scanner(System.in);
+		String entry = "";
+		System.out.println(BAR);
+		do{
+			System.out.println("Tester\n"+BAR+"\nUse CSV file for input and expected outputs. Format are as follows:\nUnicode,UTF-8,UTF-16,UTF-32\nPlease include the header: \"Unicode,UTF-8,UTF-16,UTF-32\""
+					+ " as the first line of the file.\n");
+			System.out.print("Enter filename.csv and file directory (use \\ instead of /) if not on root\nor 'exit' to terminate: ");
+			entry = cscan.nextLine();
+			
+			if(!entry.equalsIgnoreCase("exit")) {
+				System.out.println("");
+				double[] init_acceptance = ReadFile(entry);
+				double acceptance = Check();
+				System.out.println("Input Acceptance: " + (init_acceptance[0]-init_acceptance[1]) + "/" + init_acceptance[0] + " entries (" + ((init_acceptance[0]-init_acceptance[1])/init_acceptance[0])*100 + "%)");
+				System.out.println("Accuracy Rating: " + (acceptance*100) + "%\n\n");
+				getch();
+			}
+		}while(!entry.equalsIgnoreCase("exit"));
 		cscan.close();
-		
-		System.out.println("\n");
-		double[] init_acceptance = ReadFile(filename);
-		double acceptance = Check();
-		System.out.println("Input Acceptance: " + (init_acceptance[0]-init_acceptance[1]) + " entries (" + ((init_acceptance[0]-init_acceptance[1])/init_acceptance[0])*100 + "%)");
-		System.out.println("Accuracy Rating: " + (acceptance*100) + "%");
 	}
 	
-	public static double[] ReadFile(String filename) {
+	private static double[] ReadFile(String filename) {
 		double total = 0, skipped = 0;
 		Scanner fscan;	 
 		c = new Checker();
@@ -62,6 +71,7 @@ public class Tester {
 					}	
 				}
 			}
+			System.out.println(BAR);
 			fscan.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -71,7 +81,7 @@ public class Tester {
 		return d;
 	}
 	
-	public static double Check() {
+	private static double Check() {
 		double acceptance = 0, total = unicode.size()*3;
 		
 		Unicode u;
@@ -96,5 +106,11 @@ public class Tester {
 		}
 		acceptance /= total;
 		return acceptance;
+	}
+	
+	private static void getch(){
+		System.out.print("Press any key to continue...");
+		cscan.nextLine();
+		System.out.println(BAR);
 	}
 }
