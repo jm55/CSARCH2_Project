@@ -9,15 +9,14 @@ var list = ["245D6","1CAFE","42069","Youtube","Meta","ABCDEF","10FFFFF",
         "0x10FFF","10FF", "u+10F", "U+10"];
 console.log("Input, UTF8, UTF16, UTF32, Character");
 for(var i = 0; i < list.length; i++){
-if(c.CheckInput(list[i]) != null){
-    u.SetUnicode(c.CheckInput(list[i]));
-    console.log(list[i] + ", " + u.GetUTF8 + ", " + u.GetUTF16 + ", " + u.GetUTF32 + ", " + u.GetChar);
-}
-else{
-    if(list[i].length == 0)
-        console.log("Invalid input: Empty input");
-    else
-        console.log("Invalid input: " + list[i]);
-}
-    
+    if(c.CheckInput(list[i]) != null){
+        u.SetUnicode(c.CheckInput(list[i]));
+        console.log(list[i] + ", " + u.GetUTF8 + ", " + u.GetUTF16 + ", " + u.GetUTF32 + ", " + u.GetChar);
+    }
+    else{
+        if(list[i].length == 0)
+            console.log("Invalid input: Empty input");
+        else
+            console.log("Invalid input: " + list[i]);
+    }
 }
