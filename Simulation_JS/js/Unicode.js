@@ -8,19 +8,14 @@
  * such that is within the allowable range of UTF-8, UTF-16, UTF-32.
  * 
  */
- class Unicode{
-    /**
-     * Constructor with no Unicode parameter required.
-	 * Do ensure to set Unicode value using SetUnicode()
-	 * prior to use of Get functions.
-     */
-    constructor(){
-        //Empty param constructor only
-    }
 
+class Unicode{
+    constructor(){
+
+    }
     /**
      * Sets new Unicode value for conversion to equivalent UTF8,-16,-32
-	 * values.
+     * values.
      * @param {String} input Valid Unicode value to be set as new Unicode for conversion
      */
     SetUnicode(input){
@@ -28,12 +23,13 @@
         this.utf8 = this.FindUTF8(this.unicode);
         this.utf16 = this.FindUTF16(this.unicode);
         this.utf32 = this.FindUTF32(this.unicode);
+        this.unicodeChar = this.FindChar(this.unicode);
     }
 
     /**
      * Returns all UTF equivalents as a String[].
-	 * Ensure that the Unicode value was set 
-	 * prior to use, otherwise it will return an empty value.
+     * Ensure that the Unicode value was set 
+     * prior to use, otherwise it will return an empty value.
      * @returns String array containing UTF8,-16,-32 equivalent of the Unicode respectively, null if no Unicode was found.
      */
     get GetAll(){
@@ -43,19 +39,19 @@
             return null;
         
         if(this.utf8.length == 0)
-			this.utf8 = this.FindUTF8(unicode);
-		if(this.utf16.length == 0)
-			this.utf16 = this.FindUTF16(unicode);
-		if(utf32.length == 0)
-			this.utf32 = this.FindUTF32(unicode);
+            this.utf8 = this.FindUTF8(unicode);
+        if(this.utf16.length == 0)
+            this.utf16 = this.FindUTF16(unicode);
+        if(utf32.length == 0)
+            this.utf32 = this.FindUTF32(unicode);
 
         return list;
     }
 
     /**
-	 * Returns the computed UTF-8 value
-	 * @returns UTF8 value of the Unicode, returns null if no Unicode was given prior to call.
-	 */
+     * Returns the computed UTF-8 value
+     * @returns UTF8 value of the Unicode, returns null if no Unicode was given prior to call.
+     */
     get GetUTF8(){
         if(this.unicode.length == 0)
             return null;
@@ -63,9 +59,9 @@
     }
 
     /**
-	 * Returns the computed UTF-16 value
-	 * @returns UTF16 value of the Unicode, returns null if no Unicode was given prior to call.
-	 */
+     * Returns the computed UTF-16 value
+     * @returns UTF16 value of the Unicode, returns null if no Unicode was given prior to call.
+     */
     get GetUTF16(){
         if(this.unicode.length == 0)
             return null;
@@ -73,21 +69,41 @@
     }
 
     /**
-	 * Returns the computed UTF-16 value
-	 * @returns UTF32 value of the Unicode, returns null if no Unicode was given prior to call.
-	 */
+     * Returns the computed UTF-16 value
+     * @returns UTF32 value of the Unicode, returns null if no Unicode was given prior to call.
+     */
     get GetUTF32(){
         if(this.unicode.length == 0)
             return null;
         return this.utf32;
     }
 
+    /***
+     * Returns the equivalent char of the Unicode.
+     * @returns Char equivalent of the Unicode, returns null if no Unicode was given prior to call.
+     */
+    get GetChar(){
+        if(this.unicode.length == 0)
+            return null;
+        return this.unicodeChar;
+    }
+
     //===INTERNAL FUNCTIONALITY===
 
     /**
      * PRIVATE
+     * Computes for the char equivalent of the input value
+     * @param {String} input Valid input Unicode in hexadecimal from 0x0000 to 0x10FFFF, without prefix
+     * @returns Char equivalent of the input value.
+     */
+    FindChar(input){
+        return String.fromCharCode(parseInt(input,16));
+    }
+    /**
+     * PRIVATE
      * Computes for the UTF8 equivalent of the input value
-     * @param {String} input 
+     * @param {String} input Valid input Unicode in hexadecimal from 0x0000 to 0x10FFFF, without prefix
+     * @returns UTF8 equivalent of the input value.
      */
     FindUTF8(input){
         if(parseInt(input, 16) > parseInt("1FFFFF", 16)) //check if value is too big for UTF8
@@ -165,22 +181,22 @@
      */
     findByteSize(input){
         /**
-		 * Byte equivalent of hexadecimal ranges
-		 * 1byte: 	0<=I<=127
-		 * 2bytes: 	128<=I<=2047
-		 * 3bytes: 	2048<=I<=65535
-		 * 4bytes: 	65536<=I<=2097151
-		 */
+         * Byte equivalent of hexadecimal ranges
+         * 1byte: 	0<=I<=127
+         * 2bytes: 	128<=I<=2047
+         * 3bytes: 	2048<=I<=65535
+         * 4bytes: 	65536<=I<=2097151
+         */
         var numVal = parseInt(input, 16);
 
         if(0<=numVal && numVal<=127)
-			return 1;
-		else if(128<=numVal && numVal<=2047)
-			return 2;
-		else if(2048<=numVal && numVal<=65535)
-			return 3;
-		else if(65536<=numVal && numVal<=2097151)
-			return 4;
+            return 1;
+        else if(128<=numVal && numVal<=2047)
+            return 2;
+        else if(2048<=numVal && numVal<=65535)
+            return 3;
+        else if(65536<=numVal && numVal<=2097151)
+            return 4;
 
         return -1;
     }
@@ -193,15 +209,15 @@
      */
     findLabel(size){
         if(size == 1) //1byte
-			return 7;
-		if(size == 2) //2bytes
-			return 11;
-		if(size == 3) //3bytes
-			return 16;
-		if(size == 4) //4bytes
-			return 21;
-		
-		return -1; //assumes invalid input
+            return 7;
+        if(size == 2) //2bytes
+            return 11;
+        if(size == 3) //3bytes
+            return 16;
+        if(size == 4) //4bytes
+            return 21;
+        
+        return -1; //assumes invalid input
     }
 
     /**
@@ -241,104 +257,33 @@
         var range = 0;
         
         if(label == 7) {
-			idx = 0;
-			range = 8;
-		}
-		else if(label == 11) {
-			idx = 1;
-			range = 16;
-		}
-		else if(label == 16) {
-			idx = 2;
-			range = 24;
-		}
-		else if(label == 21) {
-			idx = 3;
-			range = 32;
-		}
+            idx = 0;
+            range = 8;
+        }
+        else if(label == 11) {
+            idx = 1;
+            range = 16;
+        }
+        else if(label == 16) {
+            idx = 2;
+            range = 24;
+        }
+        else if(label == 21) {
+            idx = 3;
+            range = 32;
+        }
 
         for(var i = 0; i < range; i++) {
-			if(indexRef[idx][i] == -2)
-				output += "0";
-			else if(indexRef[idx][i] == -1)
-				output += "1";
-			else
-				output += input.charAt(indexRef[idx][i]) + "";
-		}
+            if(indexRef[idx][i] == -2)
+                output += "0";
+            else if(indexRef[idx][i] == -1)
+                output += "1";
+            else
+                output += input.charAt(indexRef[idx][i]) + "";
+        }
 
         return output;
     }
 }
 
-/**
- * Checker
- * 
- * Will manage the checking and validation of inputs 
- * prior to conversion to equivalent UTF value.
- */
-class Checker{
-    constructor(){
-        //DO NOTHING
-    }
-    /**
-     * Checks and validates input value if allowed to be 
-	 * converted to equivalent UTF value.
-     * @param {String} input Unicode value without any prefixes
-     * @returns True if input is a valid Unicode value, False if otherwise.
-     */
-    CheckInput(input){
-        var min = parseInt("0000", 16), max = parseInt("10FFFFF",16);
-        /**
-         * Will resort to Naive Approach 
-         * since the initial implementation
-         * of Regex does not work properly on all cases. 
-         * 
-         * If there are better solutions that does the same thing
-         * albeit faster, please do add.
-         * 
-         * Simply check if it only contains the characters: ABCDEF0123456789 Non-Case Sensitive
-         */
-        var inputCaps = input.toUpperCase(); //just to simplify conditions (will only check ascii values of uppercase letters and numbers)
-        if(inputCaps.length == 0)
-            return null;
-        if(inputCaps.length>2)
-            if(inputCaps.substring(0,2).match("U+"))
-                inputCaps = inputCaps.substring(2, inputCaps.length);
-        for(var i = 0; i < inputCaps.length; i++){
-            //65-70 = A-F & 48-57 = 0-9
-            if((inputCaps.charCodeAt(i) < 48 || inputCaps.charCodeAt(i) > 57) && (inputCaps.charCodeAt(i) < 65 || inputCaps.charCodeAt(i) > 70))
-                return null;
-        }
-        if(parseInt(inputCaps,16) < min || parseInt(inputCaps, 16) > max)
-            return null;
-        return inputCaps;
-    }
-
-    /**
-     * Checks and validates input value if allowed to be 
-	 * converted to equivalent UTF value.
-     * @param {String} input  Unicode value with("U+")/without prefix.
-     * @returns True if a valid Unicode (after fixing) or not. 
-     */
-    CheckInputBool(input){
-        if(this.CheckInput(input) != null)
-            return true;
-        return false;
-    }
-}
-
-//TEST AREA
-let c = new Checker();
-let u = new Unicode();
-var list = ["245D6","1CAFE","42069","Youtube","Meta","ABCDEF","10FFFFF","1FFFFF","","U+ABCDEF"];
-console.log("Input", "UTF8", "UTF16", "UTF32");
-for(var i = 0; i < list.length; i++){
-    if(c.CheckInput(list[i]) != null){
-        u.SetUnicode(c.CheckInput(list[i]));
-        console.log(list[i] + ", " + u.GetUTF8 + ", " + u.GetUTF16 + ", " + u.GetUTF32);
-    }
-    else{
-        console.log("Invalid input: " + list[i]);
-    }
-}
-    
+export {Unicode};
