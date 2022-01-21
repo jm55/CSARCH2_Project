@@ -1,5 +1,12 @@
+#Python implementation of Binary Division for CSARCH2
+#Done for fun but also as practice for examinations and coding.
+#It does not however follow the specifications for actual projects.
+#エスカローナミゲル
+
 import os
 
+"""Division using Non-Restoring Method
+"""
 def non_restoring():
     clear()
     print("Non-Restoring Division")
@@ -44,6 +51,8 @@ def non_restoring():
     print("Remainder: ", a , "(", Bin2Dec(a), ")")
     print("Quotient: ", q, "(", Bin2Dec(q), ")")
 
+"""Divison using Restoring Method
+"""
 def restoring():
     clear()
     print("Restoring Division")
@@ -80,7 +89,12 @@ def restoring():
         print("")
     print("Remainder: ", a , "(", Bin2Dec(a), ")")
     print("Quotient: ", q, "(", Bin2Dec(q), ")")
-    
+
+"""Shift Left A,Q
+:param a: A
+:param q: Q
+:returns: Left-shifted A,Q (to be filled in afterwards)
+"""  
 def shift_left(a,q):
     a_len = len(a)
     q_len = len(q)
@@ -253,8 +267,6 @@ def main():
             elif(choice == "0"):
                 break
             getch()
-
-
 
 """Obligatory if function if you are using Python as OOP instead of writing script(s)
 """  
