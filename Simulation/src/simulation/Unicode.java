@@ -62,10 +62,10 @@ public class Unicode {
 	 * Returns all UTF equivalents as a String[].
 	 * Ensure that the Unicode value was set 
 	 * prior to use, otherwise it will return an empty value.
-	 * @return String array containing UTF8,-16,-32 equivalent of the Unicode respectively, null if no Unicode was found.
+	 * @return String array containing Unicode,UTF8,-16,-32,Char equivalent of the Unicode respectively, null if no Unicode was found.
 	 */
 	public String[] GetAll() {
-		String[] list = new String[4];
+		String[] list = new String[5];
 		//no unicode value, thus cannot or didn't compute
 		if(unicode.isEmpty())
 			return null;
@@ -81,10 +81,11 @@ public class Unicode {
 		if(this.unicodeChar == '\0')
 			this.unicodeChar = FindChar(unicode);
 		
-		list[0] = this.utf8;
-		list[1] = this.utf16;
-		list[2] = this.utf32;
-		list[3] = this.unicodeChar + "";
+		list[0] = this.unicode;
+		list[1] = this.utf8;
+		list[2] = this.utf16;
+		list[3] = this.utf32;
+		list[4] = this.unicodeChar + "";
 		return list;
 	}
 	

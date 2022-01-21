@@ -30,20 +30,28 @@ class Unicode{
      * Returns all UTF equivalents as a String[].
      * Ensure that the Unicode value was set 
      * prior to use, otherwise it will return an empty value.
-     * @returns String array containing UTF8,-16,-32 equivalent of the Unicode respectively, null if no Unicode was found.
+     * @returns String array containing Unicode,UTF-8,-16,-32,Char equivalent of the Unicode respectively, null if no Unicode was found.
      */
     get GetAll(){
-        var list = new Array(3);
+        var list = new Array(5);
 
         if(this.unicode.length == 0)
             return null;
         
         if(this.utf8.length == 0)
-            this.utf8 = this.FindUTF8(unicode);
+            this.utf8 = this.FindUTF8(this.unicode);
         if(this.utf16.length == 0)
-            this.utf16 = this.FindUTF16(unicode);
-        if(utf32.length == 0)
-            this.utf32 = this.FindUTF32(unicode);
+            this.utf16 = this.FindUTF16(this.unicode);
+        if(this.utf32.length == 0)
+            this.utf32 = this.FindUTF32(this.unicode);
+        if(this.unicodeChar.length == 0)
+            this.unicodeChar = this.FindChar(this.unicode);
+
+        list[0] = this.unicode;
+        list[1] = this.utf8;
+        list[2] = this.utf16;
+        list[3] = this.utf32;
+        list[4] = this.unicodeChar;
 
         return list;
     }
