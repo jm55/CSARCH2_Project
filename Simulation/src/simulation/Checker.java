@@ -28,11 +28,15 @@ public class Checker {
 		if(input.isEmpty())
 			return null;
 		input = input.replaceAll("\s+","");
-		if(input.length()>2)
+		if(input.length()>=4)
 			if(input.substring(0,4).toUpperCase().equals("U+0X"))
 				input = input.substring(4,input.length());
-			else if(input.substring(0,2).toUpperCase().equals("U+") || input.substring(0,2).toUpperCase().equals("0X"))
-				input = input.substring(2, input.length());
+		else if(input.substring(0,2).toUpperCase().equals("U+") || input.substring(0,2).toUpperCase().equals("0X")) //string less than 3 characters
+			input = input.substring(2, input.length());
+		
+		if(input.length()==0) //if trimming resulted to 'empty' string
+			return null;
+		
 		long min = Long.parseLong("0000", 16), max = Long.parseLong("10FFFFF",16); //RANGE LIMIT FOR UNICODE VALUES
 		
 		//will only accept hex inputs via issuing an exception call

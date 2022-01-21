@@ -100,7 +100,7 @@ public class Unicode {
 		if(input)
 			output = this.unicode + spacedComma(spaced);
 		
-		output += arr[0] + spacedComma(spaced) + arr[1] + spacedComma(spaced) + arr[2] + spacedComma(spaced) + arr[3];
+		output += arr[1] + spacedComma(spaced) + arr[2] + spacedComma(spaced) + arr[3] + spacedComma(spaced) + arr[4];
 		return output;
 	}
 	
@@ -202,11 +202,9 @@ public class Unicode {
 			//convert to binary and split into left and right segments
 			String binary = Resize(Long.toBinaryString(tempVal),20); //convert to binary
 			String binLeft = binary.substring(0,10), binRight = binary.substring(10,20); //split into left & right
-			
 			//Add d800 and dc00 to left and right respectively
 			long left = Long.parseLong(binLeft,2) +  Long.parseLong("D800",16);
 			long right = Long.parseLong(binRight,2) + Long.parseLong("DC00",16);
-			
 			//combine resulting values as hex string
 			output = Long.toHexString(left) + Long.toHexString(right); 
 		}

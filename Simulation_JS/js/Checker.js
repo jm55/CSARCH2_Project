@@ -30,11 +30,15 @@ class Checker{
         var inputCaps = input.toUpperCase(); //just to simplify conditions (will only check ascii values of uppercase letters and numbers)
         if(inputCaps.length == 0)
             return null;
-        if(inputCaps.length>2) 
+        if(inputCaps.length>=4) 
             if(inputCaps.substring(0,4).match("U+0X"))
                 inputCaps = inputCaps.substring(4,input.length);
-            if(inputCaps.substring(0,2).match("U+") || inputCaps.substring(0,2).match("0X"))
-                inputCaps = inputCaps.substring(2, inputCaps.length);
+        else if(inputCaps.substring(0,2).match("U+") || inputCaps.substring(0,2).match("0X"))
+            inputCaps = inputCaps.substring(2, inputCaps.length);
+
+        if(input.length == 0)
+            return null;
+
         for(var i = 0; i < inputCaps.length; i++){
             //65-70 = A-F & 48-57 = 0-9
             if((inputCaps.charCodeAt(i) < 48 || inputCaps.charCodeAt(i) > 57) && (inputCaps.charCodeAt(i) < 65 || inputCaps.charCodeAt(i) > 70))
