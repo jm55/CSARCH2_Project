@@ -6,9 +6,9 @@ import javax.swing.JOptionPane;
 
 import java.io.*;
 /***
+ * FileWriter
  * 
- * @author ESCALONA-LTP02
- *
+ * Controls the file writing of the program
  */
 public class FileWriter {
 	private static boolean DemoPrint = false;

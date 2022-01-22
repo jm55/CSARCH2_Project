@@ -8,9 +8,6 @@ package simulation;
  * Beware that this class does not yet check the validity of the input. 
  * It is recommended for the user to check and validate the values being entered
  * such that is within the allowable range of UTF-8, UTF-16, UTF-32.
- * 
- * @author ESCALONA-LTP02
- *
  */
 public class Unicode {
 	/**

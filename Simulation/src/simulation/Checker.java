@@ -5,8 +5,6 @@ package simulation;
  * 
  * Will manage the checking and validation of inputs 
  * prior to conversion to equivalent UTF value.
- * 
- * @author <author>
  *
  */
 public class Checker {

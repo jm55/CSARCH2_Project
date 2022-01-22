@@ -5,9 +5,9 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 /***
+ * Controller
  * 
- * @author ESCALONA-LTP02
- *
+ * Bridges GUI and other components of the program
  */
 public class Controller implements ActionListener {
 	private GUI gui;

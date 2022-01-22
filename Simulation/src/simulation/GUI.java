@@ -6,9 +6,9 @@ import java.awt.*;
 import java.awt.event.*;
 
 /***
+ * GUI
  * 
- * @author ESCALONA-LTP02
- *
+ * GUI for Unicode conversion
  */
 public class GUI extends JFrame{
 	//PRIVATE GLOBAL VALUES
