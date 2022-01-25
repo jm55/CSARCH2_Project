@@ -31,6 +31,7 @@ The goal of the project is to create an application that is capable of turning a
 5. Simply open and modify Driver.java's test() for testing however way you'd like.
 6. Currently the output values are hexadecimal raw, lowercased, with prefix for Java(0x), without spacing and division. Recommended to arrange output values before use.
 7. JS version also implemented for web app implementation. (Found in Simulation>js) 
+8. You may check output accuracy on this website [https://r12a.github.io/app-conversion/]
 
 ## Suggestions:
 1. For checking unicode validity, determine if it is only hexadecimal and if it is within each UTF values range of acceptable inputs by converting to decimal equivalent.
