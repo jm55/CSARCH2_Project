@@ -10,6 +10,10 @@
  */
 
 class Unicode{
+	TestUnicode(){
+        console.log("Unicode online!");
+	}
+	
     constructor(){
 
     }
@@ -35,16 +39,16 @@ class Unicode{
     get GetAll(){
         var list = new Array(5);
 
-        if(this.unicode.length == 0)
+        if(this.unicode.length === 0)
             return null;
         
-        if(this.utf8.length == 0)
+        if(this.utf8.length === 0)
             this.utf8 = this.FindUTF8(this.unicode);
-        if(this.utf16.length == 0)
+        if(this.utf16.length === 0)
             this.utf16 = this.FindUTF16(this.unicode);
-        if(this.utf32.length == 0)
+        if(this.utf32.length === 0)
             this.utf32 = this.FindUTF32(this.unicode);
-        if(this.unicodeChar.length == 0)
+        if(this.unicodeChar.length === 0)
             this.unicodeChar = this.FindChar(this.unicode);
 
         list[0] = this.unicode;
@@ -61,7 +65,7 @@ class Unicode{
      * @returns UTF8 value of the Unicode, returns null if no Unicode was given prior to call.
      */
     get GetUTF8(){
-        if(this.unicode.length == 0)
+        if(this.unicode.length === 0)
             return null;
         return this.utf8;
     }
@@ -71,7 +75,7 @@ class Unicode{
      * @returns UTF16 value of the Unicode, returns null if no Unicode was given prior to call.
      */
     get GetUTF16(){
-        if(this.unicode.length == 0)
+        if(this.unicode.length === 0)
             return null;
         return this.utf16;
     }
@@ -81,7 +85,7 @@ class Unicode{
      * @returns UTF32 value of the Unicode, returns null if no Unicode was given prior to call.
      */
     get GetUTF32(){
-        if(this.unicode.length == 0)
+        if(this.unicode.length === 0)
             return null;
         return this.utf32;
     }
@@ -91,12 +95,12 @@ class Unicode{
      * @returns Char equivalent of the Unicode, returns null if no Unicode was given prior to call.
      */
     get GetChar(){
-        if(this.unicode.length == 0)
+        if(this.unicode.length === 0)
             return null;
         return this.unicodeChar;
     }
 
-    //===INTERNAL FUNCTIONALITY===
+    //====INTERNAL FUNCTIONALITY====
 
     /**
      * PRIVATE
@@ -216,13 +220,13 @@ class Unicode{
      * @returns Label value of the given input (7,11,16,or 21)
      */
     findLabel(size){
-        if(size == 1) //1byte
+        if(size === 1) //1byte
             return 7;
-        if(size == 2) //2bytes
+        if(size === 2) //2bytes
             return 11;
-        if(size == 3) //3bytes
+        if(size === 3) //3bytes
             return 16;
-        if(size == 4) //4bytes
+        if(size === 4) //4bytes
             return 21;
         
         return -1; //assumes invalid input
@@ -248,8 +252,8 @@ class Unicode{
          * 
          * Example:
          *  		  xxx(3) xxxxxx(2) xxxxxx(1) xxxxxx(0)
-         * U+245D6 == 000(3) 100100(2) 010111(1) 010110(0) (in 21 characters with effective indices of 0-20)
-         * Range: 32bits == 11110xxx(3) 10xxxxxx(2) 10xxxxxx(1) 10xxxxxx(0)
+         * U+245D6 === 000(3) 100100(2) 010111(1) 010110(0) (in 21 characters with effective indices of 0-20)
+         * Range: 32bits === 11110xxx(3) 10xxxxxx(2) 10xxxxxx(1) 10xxxxxx(0)
          * Thus it will make use of the following index values:
          * {-1,-1,-1,-1,-2,0,1,2,-1,-2,3,4,5,6,7,8,-1,-2,9,10,11,12,13,14,-1,-2,15,16,17,18,19,20}
          *   1  1  1  1  0 0 0 0  1  0 1 0 0 1 0 0  1  0 0  1  0  1  1  1  1  0  0  1  0  1  1  0
@@ -264,27 +268,27 @@ class Unicode{
         var idx = 0;
         var range = 0;
         
-        if(label == 7) {
+        if(label === 7) {
             idx = 0;
             range = 8;
         }
-        else if(label == 11) {
+        else if(label === 11) {
             idx = 1;
             range = 16;
         }
-        else if(label == 16) {
+        else if(label === 16) {
             idx = 2;
             range = 24;
         }
-        else if(label == 21) {
+        else if(label === 21) {
             idx = 3;
             range = 32;
         }
 
         for(var i = 0; i < range; i++) {
-            if(indexRef[idx][i] == -2)
+            if(indexRef[idx][i] === -2)
                 output += "0";
-            else if(indexRef[idx][i] == -1)
+            else if(indexRef[idx][i] === -1)
                 output += "1";
             else
                 output += input.charAt(indexRef[idx][i]) + "";

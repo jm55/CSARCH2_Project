@@ -6,6 +6,10 @@
  */
 
 class Checker{
+    TestChecker(){
+        console.log("Checker online!");
+    }
+
     constructor(){
 
     }
@@ -28,7 +32,7 @@ class Checker{
          * Simply check if it only contains the characters: ABCDEF0123456789 Non-Case Sensitive
          */
         var inputCaps = input.toUpperCase(); //just to simplify conditions (will only check ascii values of uppercase letters and numbers)
-        if(inputCaps.length == 0)
+        if(inputCaps.length === 0)
             return null;
         if(inputCaps.length>=4) 
             if(inputCaps.substring(0,4).match("U+0X"))
@@ -36,7 +40,7 @@ class Checker{
         else if(inputCaps.substring(0,2).match("U+") || inputCaps.substring(0,2).match("0X"))
             inputCaps = inputCaps.substring(2, inputCaps.length);
 
-        if(input.length == 0)
+        if(input.length === 0)
             return null;
 
         for(var i = 0; i < inputCaps.length; i++){

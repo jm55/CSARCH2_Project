@@ -15,7 +15,7 @@ for(var i = 0; i < list.length; i++){
         //console.log(list[i] + ", " + u.GetUTF8 + ", " + u.GetUTF16 + ", " + u.GetUTF32 + ", " + u.GetChar);
     }
     else{
-        if(list[i].length == 0)
+        if(list[i].length === 0)
             console.log("Invalid input: Empty input");
         else
             console.log("Invalid input: " + list[i]);
