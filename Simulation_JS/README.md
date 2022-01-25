@@ -31,13 +31,13 @@ The goal of the project is to create an application that is capable of turning a
 1. As of Jan 24, Unicode does not return values in accordance to the output specified in the instructions, where it says that the output (for UTF-32?) is xx xx xx where each 'x' is a hex nibble. This shall be clarified from the professor.
 
 ## Import/Use (path assumes Unicode and Checker is on the same folder as the caller file)
-1. For Node, use:
+1. For Node, use:<br>
 	import {Checker} from './Checker.js';<br>
 	import {Unicode} from './Unicode.js';<br>
 	
 	let _ = new Unicode();<br>
 	let _ = new Unicode();<br>
-2. For React, use:
+2. For React, use:<br>
 	import './Checker.js';<br>
 	import './Unicode.js';<br>
 	
