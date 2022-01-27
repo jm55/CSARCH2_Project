@@ -140,6 +140,10 @@ public class Unicode {
 			return '\0';
 		return this.unicodeChar;
 	}
+
+	public String GetFormatted(){
+		return this.GetUTF8() + " " + this.GetUTF16() + " " + this.GetUTF32();
+	}
 //===INTERNAL FUNCTIONALITY===
 
 	private String unicode;
@@ -147,6 +151,30 @@ public class Unicode {
 	private String utf16;
 	private String utf32;
 	private char unicodeChar;
+
+	/**
+	 * Formats an input into 'xx' where each 'x' is a hex nibble.
+	 * @param input Encoded Unicode to be formatted.
+	 * @param space True if 'x x' or false if 'xx'
+	 * @param resize True if to resize or false if not (Set true for default)
+	 * @param resize_val Length of resizing (set 8 for default)
+	 * @return Formatted input
+	 */
+	private String Format(String input, boolean space, boolean resize, int resize_val){
+		String s = "";
+		if(space)
+			s = " ";
+		if(resize)
+			input = Resize(input, resize_val);
+		if(input.length() > 4){
+			if(input.length()%4 != 0){
+				int len = input.length()-(input.length()%4)+4;
+				input = this.Resize(input, len);
+			}
+			input = input.substring(0,4) + s + input.substring(4,input.length());
+		}
+		return input;
+	}
 	
 	/**
 	 * Returns the equivalent character for a given hexadecimal Unicode value
@@ -179,7 +207,8 @@ public class Unicode {
 		//get new binary
 		binary = buildBinaryUTF8(binary, findLabel(size));
 
-		return Long.toHexString(Long.parseLong(binary,2)).toUpperCase();
+		String output = Resize(Long.toHexString(Long.parseLong(binary,2)).toUpperCase(),8);
+		return Format(output, false, false, 0);
 	}
 	
 	/***
@@ -188,7 +217,7 @@ public class Unicode {
 	 * @return UTF16 equivalent of the input value
 	 */
 	private String FindUTF16(String input) {
-		String output = Resize(input, 4); //Default state where input is only from 0x0000 to 0xFFFF
+		String output = Resize(input, 8); //Default state where input is only from 0x0000 to 0xFFFF
 		long numVal = Long.parseLong(input,16); 	//converts hex string into decimal equivalent
 
 		if(numVal > Long.parseLong("FFFF",16)){ //for code points 0x10000-0x10FFFF
@@ -205,7 +234,7 @@ public class Unicode {
 			//combine resulting values as hex string
 			output = Long.toHexString(left) + Long.toHexString(right); 
 		}
-		return output.toUpperCase();
+		return Format(output.toUpperCase(), false, false, 0);
 	}
 	
 	/**
@@ -214,7 +243,7 @@ public class Unicode {
 	 * @return UTF32 equivalent of the input value
 	 */
 	private String FindUTF32(String input) {
-		return Resize(input, 8).toUpperCase(); //simply resize input to have 8 hex digits
+		return Format(Resize(input, 8).toUpperCase(),false, false, 0); //simply resize input to have 8 hex digits
 	}
 	
 	/**

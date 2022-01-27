@@ -102,7 +102,7 @@ public class Tester {
 			else
 				System.out.println(u.GetUnicode() + " UTF-32 mismatch (Ans/Target): " + u.GetUTF32() + "/" + utf32.get(i).toUpperCase());
 			
-			System.out.println(u.GetUnicode() + "(" + u.GetChar() + ") checked!");
+			System.out.println(u.GetUnicode() + "(" + u.GetChar() + ") checked! (" + u.GetFormatted() + ")");
 		}
 		acceptance /= total;
 		return acceptance;

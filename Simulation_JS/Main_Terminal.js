@@ -11,7 +11,7 @@ console.log("Input, UTF8, UTF16, UTF32, Character");
 for(var i = 0; i < list.length; i++){
     if(c.CheckInput(list[i]) != null){
         u.SetUnicode(c.CheckInput(list[i]));
-        console.log(list[i] + ": ", u.GetAll);
+        console.log(list[i] + ": ", u.GetFormatted);
         //console.log(list[i] + ", " + u.GetUTF8 + ", " + u.GetUTF16 + ", " + u.GetUTF32 + ", " + u.GetChar);
     }
     else{
