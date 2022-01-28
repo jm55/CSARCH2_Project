@@ -151,30 +151,6 @@ public class Unicode {
 	private String utf16;
 	private String utf32;
 	private char unicodeChar;
-
-	/**
-	 * Formats an input into 'xx' where each 'x' is a hex nibble.
-	 * @param input Encoded Unicode to be formatted.
-	 * @param space True if 'x x' or false if 'xx'
-	 * @param resize True if to resize or false if not (Set true for default)
-	 * @param resize_val Length of resizing (set 8 for default)
-	 * @return Formatted input
-	 */
-	private String Format(String input, boolean space, boolean resize, int resize_val){
-		String s = "";
-		if(space)
-			s = " ";
-		if(resize)
-			input = Resize(input, resize_val);
-		if(input.length() > 4){
-			if(input.length()%4 != 0){
-				int len = input.length()-(input.length()%4)+4;
-				input = this.Resize(input, len);
-			}
-			input = input.substring(0,4) + s + input.substring(4,input.length());
-		}
-		return input;
-	}
 	
 	/**
 	 * Returns the equivalent character for a given hexadecimal Unicode value
@@ -208,7 +184,7 @@ public class Unicode {
 		binary = buildBinaryUTF8(binary, findLabel(size));
 
 		String output = Resize(Long.toHexString(Long.parseLong(binary,2)).toUpperCase(),8);
-		return Format(output, false, false, 0);
+		return Resize(output,8).toUpperCase();
 	}
 	
 	/***
@@ -234,7 +210,7 @@ public class Unicode {
 			//combine resulting values as hex string
 			output = Long.toHexString(left) + Long.toHexString(right); 
 		}
-		return Format(output.toUpperCase(), false, false, 0);
+		return Resize(output,8).toUpperCase();
 	}
 	
 	/**
@@ -243,7 +219,7 @@ public class Unicode {
 	 * @return UTF32 equivalent of the input value
 	 */
 	private String FindUTF32(String input) {
-		return Format(Resize(input, 8).toUpperCase(),false, false, 0); //simply resize input to have 8 hex digits
+		return Resize(input, 8).toUpperCase(); //simply resize input to have 8 hex digits
 	}
 	
 	/**
