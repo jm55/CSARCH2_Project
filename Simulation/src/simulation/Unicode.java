@@ -345,6 +345,7 @@ public class Unicode {
 		 * use the char index of the input parameter to point to which and what binary digit it should use.
 		 * 
 		 * Example:
+		 *            012    345678    9...
 		 * 			  xxx(3) xxxxxx(2) xxxxxx(1) xxxxxx(0)
 		 * U+245D6 == 000(3) 100100(2) 010111(1) 010110(0) (in 21 characters with effective indices of 0-20)
 		 * Range: 32bits == 11110xxx(3) 10xxxxxx(2) 10xxxxxx(1) 10xxxxxx(0)
