@@ -95,7 +95,7 @@ public class Controller implements ActionListener {
 	 * 
 	 * Enter the correct 'keyword' then it proceeds with a bruteforce attempt of running through every Unicode value specified by user.
 	 * 
-	 * Keyword: bruteforce (any case) or its binary equivalent (must be exact)
+	 * Keyword: 'bruteforce' (any case) or its binary equivalent (must be exact)
 	 * @param input Keyword input of user.
 	 * @return True when valid for Easter Egg, false if otherwise.
 	 */
@@ -103,14 +103,23 @@ public class Controller implements ActionListener {
 		if(input.replaceAll("\s+","").equals("01100010011100100111010101110100011001010110011001101111011100100110001101100101") || input.toLowerCase().equals("bruteforce")) {
 			String minHex = check.CheckInput(gui.inputDialog("Starting value (From U+00): "));
 			String maxHex = check.CheckInput(gui.inputDialog("End Value (Up to U+10FFFFF): "));
+			long min = Long.parseLong(minHex,16), max = Long.parseLong(maxHex,16);
+			if(max-min >= 69631) //triggered if running test size >= 10FFF
+				gui.popMessage(null, "Number of elements to be computed is big, it may take a while and will consume a significant amount of memory.\nPlease press OK to continue", "Bruteforce size too big", JOptionPane.WARNING_MESSAGE);
 			System.out.println("Bruteforce: " + minHex + " to " + maxHex);
 			try {
-				for(int i = Integer.parseInt(minHex,16); i <= Integer.parseInt(maxHex,16); i++)
-					outputs.add(new Unicode(Integer.toHexString(i)));
+				Unicode u = new Unicode();
+				for(long i = min; i <= max; i++) {
+					u.SetUnicode(Long.toHexString(i));
+					//outputs.add(u);
+					//displayOutput(u);
+					//double percentage = ((double)i/(double)max)*100;
+					//System.out.println("Bruteforce Completed: " + (percentage) + "%");
+				}
 			}catch(Exception e) {
 				System.out.println(e.getMessage());
 			}
-			displayOutput(outputs);
+			//displayOutput(outputs);
 			return true;
 		}else
 			return false;
@@ -127,6 +136,18 @@ public class Controller implements ActionListener {
 			output += list.get(i).GetCSV(true,true);
 			output += "\n";
 		}
+		gui.setOutputText(output);
+	}
+	
+	/**
+	 * Displays individual Unicode on the Window via a CSV format
+	 * @param u Individual computed Unicode to be displayed
+	 */
+	private void displayOutput(Unicode u) {
+		String output = "";
+		if(!gui.getOutputText().contentEquals("Unicode, UTF8, UTF16, UTF32, Character\n"))
+			output = "Unicode, UTF8, UTF16, UTF32, Character\n" + "================================\n";
+		output = gui.getOutputText() + u.GetCSV(true, true) + "\n";
 		gui.setOutputText(output);
 	}
 	

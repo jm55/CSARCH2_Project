@@ -129,7 +129,6 @@ public class GUI extends JFrame{
 	 * @param text Text to display.
 	 */
 	public void setOutputText(String text) {
-		outputArea.setText("");
 		outputArea.setText(text);
 	}
 	
@@ -145,6 +144,14 @@ public class GUI extends JFrame{
 	public void clearIO() {
 		setOutputText("");
 		unicodeField.setText("");
+	}
+	
+	/**
+	 * Gets contents of outputArea.
+	 * @return Contents of outputArea
+	 */
+	public String getOutputText() {
+		return outputArea.getText();
 	}
 	
 	//PRIVATE METHODS

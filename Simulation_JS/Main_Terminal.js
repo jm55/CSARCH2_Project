@@ -5,8 +5,8 @@ import {Unicode} from './Unicode.js'
 let c = new Checker();
 let u = new Unicode();
 var list = ["245D6","1CAFE","42069","Youtube","Meta","ABCDEF","10FFFFF",
-        "1FFFFF","","U+ABCDEF","U+3041","U+3086","308C","3044","0x306A","zxcvbnm","0x10FFFF",
-        "0x10FFF","10FF", "u+10F", "U+10"];
+        "1FFFFF","","U+ABCDEF","U+3041","U+0x3086","0xU+308C","3044","0x306A","zxcvbnm","0x10FF FF",
+        "0x10FFF","10FF", "u+10F", "U+10","0x","U+0x","U+","U+AB","0xAB"];
 console.log("Input, UTF8, UTF16, UTF32, Character");
 for(var i = 0; i < list.length; i++){
     if(c.CheckInput(list[i]) != null){

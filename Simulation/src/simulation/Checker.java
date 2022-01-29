@@ -23,13 +23,16 @@ public class Checker {
 	 * @return True if input is a valid Unicode value, False if otherwise.
 	 */
 	public String CheckInput(String input) {
+		input = input.toUpperCase();
 		if(input.isEmpty())
 			return null;
-		input = input.replaceAll("\s+","");
+		input = input.replaceAll("\s+",""); //removes excess spaces
+		if(input.length() == 4 && (input.equalsIgnoreCase("U+0X") || input.equalsIgnoreCase("0XU+")))
+				return null;
 		if(input.length()>=4)
-			if(input.substring(0,4).toUpperCase().equals("U+0X"))
+			if(input.substring(0,4).equalsIgnoreCase("U+0X") || input.substring(0,4).equalsIgnoreCase("0XU+"))
 				input = input.substring(4,input.length());
-		else if(input.substring(0,2).toUpperCase().equals("U+") || input.substring(0,2).toUpperCase().equals("0X")) //string less than 3 characters
+		else if(input.substring(0,2).equalsIgnoreCase("U+") || input.substring(0,2).equalsIgnoreCase("0X")) //string less than 3 characters
 			input = input.substring(2, input.length());
 		
 		if(input.length()==0) //if trimming resulted to 'empty' string

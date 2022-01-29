@@ -18,8 +18,7 @@ class Unicode{
 
     }
     /**
-     * Sets new Unicode value for conversion to equivalent UTF8,-16,-32
-     * values.
+     * Sets new Unicode value for conversion to equivalent UTF8,-16,-32, and char values.
      * @param {String} input Valid Unicode value to be set as new Unicode for conversion
      */
     SetUnicode(input){
@@ -34,7 +33,7 @@ class Unicode{
      * Returns all UTF equivalents as a String[].
      * Ensure that the Unicode value was set 
      * prior to use, otherwise it will return an empty value.
-     * @returns String array containing Unicode,UTF-8,-16,-32,Char equivalent of the Unicode respectively, null if no Unicode was found.
+     * @returns String array containing [Unicode,UTF-8,-16,-32,Char] equivalent of the Unicode respectively, null if no Unicode was found.
      */
     get GetAll(){
         var list = new Array(5);
@@ -51,15 +50,19 @@ class Unicode{
         if(this.unicodeChar.length === 0)
             this.unicodeChar = this.FindChar(this.unicode);
 
-        list[0] = this.unicode;
-        list[1] = this.utf8;
-        list[2] = this.utf16;
-        list[3] = this.utf32;
-        list[4] = this.unicodeChar;
-
-        //list = [this.unicode, this.utf8, this.utf16, this.utf32, this.unicodeChar]
+        list = [this.unicode, this.utf8, this.utf16, this.utf32, this.unicodeChar]
 
         return list;
+    }
+
+    /**
+     * Returns the input unicode value
+     * @returns Unicode input that was set via SetUnicode();
+     */
+    get GetUnicode(){
+        if(this.unicode.length === 0)
+            return null;
+        return this.unicode;
     }
 
     /**
@@ -136,7 +139,6 @@ class Unicode{
         var size = this.findByteSize(input);
 
         binary = this.Resize(binary, 21);
-
         binary = this.buildBinaryUTF8(binary, this.findLabel(size));
 
         return this.Resize(parseInt(binary , 2).toString(16).toUpperCase(),8); // Long.toHexString(Long.parseLong(binary,2)).toUpperCase();

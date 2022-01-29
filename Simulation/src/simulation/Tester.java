@@ -87,22 +87,26 @@ public class Tester {
 		Unicode u;
 		for(int i = 0; i < unicode.size(); i++) {
 			u = new Unicode(c.CheckInput(unicode.get(i)));
+			
+			//GetUTF8
 			if(u.GetUTF8().equals(utf8.get(i).toUpperCase()))
 				acceptance++;
 			else 
 				System.out.println(u.GetUnicode() + " UTF-8 mismatch (Ans/Target): " + u.GetUTF8() + "/" + utf8.get(i).toUpperCase());
 			
+			//GetUTF16
 			if(u.GetUTF16().equals(utf16.get(i).toUpperCase()))
 				acceptance++;
 			else
 				System.out.println(u.GetUnicode() + " UTF-16 mismatch (Ans/Target): " + u.GetUTF16() + "/" + utf16.get(i).toUpperCase());
 			
+			//GetUTF32
 			if(u.GetUTF32().toUpperCase().equals(utf32.get(i).toUpperCase()))
 				acceptance++;
 			else
 				System.out.println(u.GetUnicode() + " UTF-32 mismatch (Ans/Target): " + u.GetUTF32() + "/" + utf32.get(i).toUpperCase());
 			
-			System.out.println(u.GetUnicode() + "(" + u.GetChar() + ") checked! (" + u.GetFormatted() + ")");
+			System.out.println(unicode.get(i) + " = " + u.GetUnicode() + ": (" + u.GetChar() + ") checked! (" + u.GetFormatted() + ")");
 		}
 		acceptance /= total;
 		return acceptance;

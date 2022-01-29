@@ -336,23 +336,22 @@ public class Unicode {
 	private String buildBinaryUTF8(String input, int label) {
 		String output = "";
 		/**
-		 * Index Reference: points to the individual characters in String input
-		 * Note that -2 and -1 represent 0 and 1 respectively
-		 * 
-		 * Given a resized binary input (w/ 21 binary digits regardless of Unicode value),
-		 * it will assemble the UTF8 value by incrementing from 0->(range-1) 
-		 * indices of the resulting output string. For each iteration, it will 
-		 * use the char index of the input parameter to point to which and what binary digit it should use.
-		 * 
-		 * Example:
-		 *            012    345678    9...
-		 * 			  xxx(3) xxxxxx(2) xxxxxx(1) xxxxxx(0)
-		 * U+245D6 == 000(3) 100100(2) 010111(1) 010110(0) (in 21 characters with effective indices of 0-20)
-		 * Range: 32bits == 11110xxx(3) 10xxxxxx(2) 10xxxxxx(1) 10xxxxxx(0)
-		 * Thus it will make use of the following index values:
-		 * {-1,-1,-1,-1,-2,0,1,2,-1,-2,3,4,5,6,7,8,-1,-2,9,10,11,12,13,14,-1,-2,15,16,17,18,19,20}
-		 *   1  1  1  1  0 0 0 0  1  0 1 0 0 1 0 0  1  0 0  1  0  1  1  1  1  0  0  1  0  1  1  0
-		 */
+         * Index Reference: points to the individual characters in String input
+         * Note that -2 and -1 represent 0 and 1 respectively
+         * 
+         * Given a resized binary input (w/ 21 binary digits regardless of Unicode value),
+         * it will assemble the UTF8 value by incrementing from 0->(range-1) 
+         * indices of the resulting output string. For each iteration, it will 
+         * use the char index of the input parameter to point to which and what binary digit it should use.
+         * 
+         * Example:
+         *  		   abc(3) defghi(2) jklmno(1) pqrstu(0)
+         * U+245D6 === 000(3) 100100(2) 010111(1) 010110(0) (in 21 characters with effective indices of 0-20)
+         * Range: 32bits === 11110abc(3) 10defghi(2) 10jklmno(1) 10pqrstu(0)
+         * Thus it will make use of the following index values:
+         * [-1,-1,-1,-1,-2,0,1,2,-1,-2,3,4,5,6,7,8,-1,-2,9,10,11,12,13,14,-1,-2,15,16,17,18,19,20]
+         *   1  1  1  1  0 0 0 0  1  0 1 0 0 1 0 0  1  0 0  1  0  1  1  1  1  0  0  1  0  1  1  0
+         */
 		int[][] indexRef = {
 				{-2,14,15,16,17,18,19,20}, //0xxxxxxx 8
 				{-1,-1,-2,10,11,12,13,14,-1,-2,15,16,17,18,19,20}, //110xxxxx 10xxxxxx 16
