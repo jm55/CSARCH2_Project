@@ -38,3 +38,7 @@ Given the correct keyword on the input on the Unicode entry, the system may auto
 4. JFileChooser - https://docs.oracle.com/javase/7/docs/api/javax/swing/JFileChooser.html
 5. Writing to File - https://www.tutorialkart.com/java/java-write-string-to-file/
 6. Using JScrollPane - https://stackoverflow.com/questions/10177183/add-scroll-into-text-area
+
+## Performance
+<img src="performance.png" alt="Unicode Java Performance"/>
+Note that 70-Run was executed with other applications running in the background, thus it may have affected the performance in comparison to 20-Run which was executed on a newly booted system.
