@@ -162,7 +162,7 @@ class Unicode{
             //convert to binary and split to left and right segments
             var binary = this.Resize(tempVal.toString(2),20);
             var binLeft = binary.substring(0,10);
-            var binRight = binary.substring(10,10); 
+            var binRight = binary.substring(10,20); 
             
             var left = parseInt(binLeft,2) + parseInt("D800",16); //add left_bin and 0xD800
             var right = parseInt(binRight,2) + parseInt("DC00",16); //add right_bin and 0xDC00
