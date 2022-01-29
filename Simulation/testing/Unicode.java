@@ -363,21 +363,23 @@ public class Unicode {
 		
 		//Determine master index value
 		int idx = 0, range = 0;
-		if(label == 7) {
-			idx = 0;
-			range = 8;
-		}
-		else if(label == 11) {
-			idx = 1;
-			range = 16;
-		}
-		else if(label == 16) {
-			idx = 2;
-			range = 24;
-		}
-		else if(label == 21) {
-			idx = 3;
-			range = 32;
+		switch(label){
+			case 7:
+				idx = 0;
+				range = 8;
+				break;
+			case 11:
+				idx = 1;
+				range = 16;
+				break;
+			case 16:
+				idx = 2;
+				range = 24;
+				break;
+			case 21:
+				idx = 3;
+				range = 32;
+				break;
 		}
 		
 		//Build the UTF-8 binary string

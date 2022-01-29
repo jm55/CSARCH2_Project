@@ -15,11 +15,7 @@ public class Unicode {
 	 * @param input Validated Unicode value in hexadecimal (Without prefixes)
 	 */
 	public Unicode(String input){
-		this.unicode = input.toUpperCase();
-		this.utf8 = FindUTF8(this.unicode);
-		this.utf16 = FindUTF16(this.unicode);
-		this.utf32 = FindUTF32(this.unicode);
-		this.unicodeChar = FindChar(this.unicode);
+		SetUnicode(input);
 	}
 	
 	/**
@@ -28,7 +24,7 @@ public class Unicode {
 	 * prior to use of Get functions.
 	 */
 	public Unicode() {
-		this.utf8 = this.utf16 = this.utf32 = ""; //default state
+		this.unicode = this.utf8 = this.utf16 = this.utf32 = ""; //default state
 		this.unicodeChar = '\0';
 	}
 	
