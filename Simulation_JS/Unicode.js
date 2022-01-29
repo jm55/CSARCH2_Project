@@ -133,15 +133,15 @@ class Unicode{
         if(parseInt(input, 16) > parseInt("1FFFFF", 16)) //check if value is too big for UTF8
             return "N/A";
         
-        var numVal = parseInt(input , 16); //validated, turns out that 'int' in js has x64 range
-        var binary = numVal.toString(2); //validated (String)
+        var numVal = parseInt(input , 16); //hex to dec; validated, turns out that 'int' in js has x64 range
+        var binary = numVal.toString(2); //dec to bin; validated (String)
 
-        var size = this.findByteSize(input);
+        var size = this.findByteSize(input); //determine size of the input
 
-        binary = this.Resize(binary, 21);
-        binary = this.buildBinaryUTF8(binary, this.findLabel(size));
+        binary = this.Resize(binary, 21); //resize bin to 21 bits
+        binary = this.buildBinaryUTF8(binary, this.findLabel(size)); //convert binary to utf8
 
-        return this.Resize(parseInt(binary , 2).toString(16).toUpperCase(),8); // Long.toHexString(Long.parseLong(binary,2)).toUpperCase();
+        return this.Resize(parseInt(binary , 2).toString(16).toUpperCase(),8); //return resulting hex value, resized to 8 hex digits
     }
 
     /**
@@ -156,19 +156,20 @@ class Unicode{
         
         if(numVal > parseInt("FFFF",16)){
             output = "";
-            //subtract 0x10000 to the input value
-            var tempVal = numVal - parseInt("010000",16);
+
+            var tempVal = numVal - parseInt("010000",16); //subtract 0x10000 to the input value
+            
             //convert to binary and split to left and right segments
             var binary = this.Resize(tempVal.toString(2),20);
-            var binLeft = binary.substr(0,10);
-            var binRight = binary.substr(10,10);
+            var binLeft = binary.substring(0,10);
+            var binRight = binary.substring(10,10); 
             
-            var left = parseInt(binLeft,2) + parseInt("D800",16);
-            var right = parseInt(binRight,2) + parseInt("DC00",16);
+            var left = parseInt(binLeft,2) + parseInt("D800",16); //add left_bin and 0xD800
+            var right = parseInt(binRight,2) + parseInt("DC00",16); //add right_bin and 0xDC00
 
-            output += left.toString(16) + right.toString(16) + "";
+            output += left.toString(16) + right.toString(16) + ""; //combine left and right hex values
         }
-        return this.Resize(output,8).toUpperCase();
+        return this.Resize(output,8).toUpperCase(); //return resulting hex value, resized to 8 hex digits
     }
 
     /**
@@ -178,7 +179,7 @@ class Unicode{
      * @returns UTF32 equivalent of the input value
      */
     FindUTF32(input){
-        return this.Resize(input, 8).toUpperCase();
+        return this.Resize(input, 8).toUpperCase(); //return the same input hex value, resized to 8 hex digits
     }
 
     /**
@@ -187,18 +188,24 @@ class Unicode{
      * Adjusts the String to the specified binary/hex digits by filling in zeroes on its left side.
      * @param {String} input String value to resize, either in hexadecimal or binary.
      * @param {Number} size Number of specified binary/hex digits
+     * @param {boolean} msb True if use msb as fill-in value, false (default) if use 0 as fill-in value.
      * @returns Resized equivalent of the input value
      */
-    Resize(input, size){
+    Resize(input, size, msb=false){
         var output = "";
+        var m = input.substring(0,1);
         if(input.length < size)
-            for(var i = 0; i < size-input.length; i++)
-                output += "0";
-        return output+input;
+            for(var i = 0; i < size-input.length; i++) //create fill-in by difference off target size and input length
+                if(msb) //use msb as fill-in
+                    output+=m;
+                else //use 0 as fill-in
+                    output += "0";
+        return output+input; //return resized input
     }
     /**
      * PRIVATE
      * Finds the byte size of a given hexadecimal input.
+     * Used for UTF8
      * @param {String} input Hexadecimal value from 0x0000 to 0x1FFFFF
      * @returns Byte size of the given input (1-4)
      */
@@ -227,6 +234,7 @@ class Unicode{
     /**
      * PRIVATE
      * Determines the UTF8 label equivalent to the given the byte size
+     * Used for UTF8
      * @param {Number} size Byte size (1,2,3,or 4)
      * @returns Label value of the given input (7,11,16,or 21)
      */
@@ -262,11 +270,11 @@ class Unicode{
          * use the char index of the input parameter to point to which and what binary digit it should use.
          * 
          * Example:
-         *  		  xxx(3) xxxxxx(2) xxxxxx(1) xxxxxx(0)
+         *  		   abc(3) defghi(2) jklmno(1) pqrstu(0)
          * U+245D6 === 000(3) 100100(2) 010111(1) 010110(0) (in 21 characters with effective indices of 0-20)
-         * Range: 32bits === 11110xxx(3) 10xxxxxx(2) 10xxxxxx(1) 10xxxxxx(0)
+         * Range: 32bits === 11110abc(3) 10defghi(2) 10jklmno(1) 10pqrstu(0)
          * Thus it will make use of the following index values:
-         * {-1,-1,-1,-1,-2,0,1,2,-1,-2,3,4,5,6,7,8,-1,-2,9,10,11,12,13,14,-1,-2,15,16,17,18,19,20}
+         * [-1,-1,-1,-1,-2,0,1,2,-1,-2,3,4,5,6,7,8,-1,-2,9,10,11,12,13,14,-1,-2,15,16,17,18,19,20]
          *   1  1  1  1  0 0 0 0  1  0 1 0 0 1 0 0  1  0 0  1  0  1  1  1  1  0  0  1  0  1  1  0
          */
         const indexRef = [
@@ -295,13 +303,14 @@ class Unicode{
             idx = 3;
             range = 32;
         }
+        //iterate through the constants and input char indexes
         for(var i = 0; i < range; i++) {
-            if(indexRef[idx][i] === -2)
+            if(indexRef[idx][i] === -2) //constant -1
                 output += "0";
-            else if(indexRef[idx][i] === -1)
+            else if(indexRef[idx][i] === -1) //constant 0
                 output += "1";
             else
-                output += input.charAt(indexRef[idx][i]) + "";
+                output += input.charAt(indexRef[idx][i]) + ""; //input(idx)
         }
         return output;
     }

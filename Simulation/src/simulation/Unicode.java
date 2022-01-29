@@ -16,10 +16,10 @@ public class Unicode {
 	 */
 	public Unicode(String input){
 		this.unicode = input.toUpperCase();
-		this.utf8 = FindUTF8(input);
-		this.utf16 = FindUTF16(input);
-		this.utf32 = FindUTF32(input);
-		this.unicodeChar = FindChar(input);
+		this.utf8 = FindUTF8(this.unicode);
+		this.utf16 = FindUTF16(this.unicode);
+		this.utf32 = FindUTF32(this.unicode);
+		this.unicodeChar = FindChar(this.unicode);
 	}
 	
 	/**
@@ -158,8 +158,7 @@ public class Unicode {
 	 * @return Character equivalent of the input Unicode value
 	 */
 	private char FindChar(String input) {
-		long val = Long.parseLong(input,16);
-		return (char)val;
+		return (char)Long.parseLong(input,16);
 	}
 	
 	/***
@@ -178,13 +177,13 @@ public class Unicode {
 		int size = findByteSize(input);
 		
 		//resize binary to 21 bits regardless of label/# of bytes
-		binary = Resize(binary, 21);
+		binary = Resize(binary, 21,false);
 
 		//get new binary
 		binary = buildBinaryUTF8(binary, findLabel(size));
 
-		String output = Resize(Long.toHexString(Long.parseLong(binary,2)).toUpperCase(),8);
-		return Resize(output,8).toUpperCase();
+		String output = Resize(Long.toHexString(Long.parseLong(binary,2)).toUpperCase(),8,false);
+		return Resize(output,8,false).toUpperCase();
 	}
 	
 	/***
@@ -193,7 +192,7 @@ public class Unicode {
 	 * @return UTF16 equivalent of the input value
 	 */
 	private String FindUTF16(String input) {
-		String output = Resize(input, 8); //Default state where input is only from 0x0000 to 0xFFFF
+		String output = Resize(input, 8,false); //Default state where input is only from 0x0000 to 0xFFFF
 		long numVal = Long.parseLong(input,16); 	//converts hex string into decimal equivalent
 
 		if(numVal > Long.parseLong("FFFF",16)){ //for code points 0x10000-0x10FFFF
@@ -202,7 +201,7 @@ public class Unicode {
 			long tempVal = numVal - Long.parseLong("010000",16); //subtract 0x10000 to the input value
 
 			//convert to binary and split into left and right segments
-			String binary = Resize(Long.toBinaryString(tempVal),20); //convert to binary
+			String binary = Resize(Long.toBinaryString(tempVal),20,false); //convert to binary
 			String binLeft = binary.substring(0,10), binRight = binary.substring(10,20); //split into left & right
 			//Add d800 and dc00 to left and right respectively
 			long left = Long.parseLong(binLeft,2) +  Long.parseLong("D800",16);
@@ -210,7 +209,7 @@ public class Unicode {
 			//combine resulting values as hex string
 			output = Long.toHexString(left) + Long.toHexString(right); 
 		}
-		return Resize(output,8).toUpperCase();
+		return Resize(output,8,false).toUpperCase();
 	}
 	
 	/**
@@ -219,21 +218,25 @@ public class Unicode {
 	 * @return UTF32 equivalent of the input value
 	 */
 	private String FindUTF32(String input) {
-		return Resize(input, 8).toUpperCase(); //simply resize input to have 8 hex digits
+		return Resize(input, 8,false).toUpperCase(); //simply resize input to have 8 hex digits
 	}
 	
 	/**
 	 * For both binary and hexadecimal values.
-	 * Adjusts the String to the specified binary/hex digits by filling in zeroes on its left side.
+	 * Adjusts the String to the specified binary/hex digits by filling in MSB (true) or zeroes (false) on its left side.
 	 * @param input String value to resize, either in hexadecimal or binary.
 	 * @param size Number of specified binary/hex digits
+	 * @param msb True if use MSB as fill-in, false (default) if use 0 as fill-in
 	 * @return Resized equivalent of the input value.
 	 */
-	private String Resize(String input, int size) {
+	private String Resize(String input, int size, boolean msb) {
 		String output = "";
 		if(input.length() < size)
 			for(int i = 0; i < size-input.length(); i++)
-				output += '0';
+				if(msb)
+					output += input.charAt(0);
+				else
+					output += '0';
 		return output+input;
 	}
 	
@@ -380,12 +383,17 @@ public class Unicode {
 		
 		//Build the UTF-8 binary string
 		for(int i = 0; i < range; i++) {
-			if(indexRef[idx][i] == -2) //hard coded bit 0
-				output += "0";
-			else if(indexRef[idx][i] == -1) //hard coded bit 1
-				output += "1";
-			else
-				output += input.charAt(indexRef[idx][i]) + "";
+			switch(indexRef[idx][i]) {
+				case -2:
+					output += "0";
+					break;
+				case -1:
+					output += "1";
+					break;
+				default:
+					output += input.charAt(indexRef[idx][i]) + "";
+					break;
+			}
 		}
 		return output;
 	}

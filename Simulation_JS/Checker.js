@@ -35,12 +35,12 @@ class Checker{
         if(inputCaps.length === 0)
             return null;
         inputCaps = inputCaps.replace(/\s/gm,""); //remove any whitespaces
-        if(inputCaps.length === 4 && (inputCaps==="U+0X" || inputCaps === "0XU+"))
+        if(inputCaps.length === 4 && (inputCaps==="U+0X" || inputCaps === "0XU+")) //check if the only contents of input are U+0x or 0xU+
             return null;
         if(inputCaps.length>=4) 
-            if(inputCaps.substring(0,4)===("U+0X") || inputCaps.substring(0,4)===("0XU+"))
+            if(inputCaps.substring(0,4)===("U+0X") || inputCaps.substring(0,4)===("0XU+")) //remove prefixes U+0x and 0xU+
                 inputCaps = inputCaps.substring(4,input.length);
-        else if(inputCaps.substring(0,2)===("U+") || inputCaps.substring(0,2)===("0X"))
+        else if(inputCaps.substring(0,2)===("U+") || inputCaps.substring(0,2)===("0X")) //length is less than 4, remove prefixes U+ and 0x
             inputCaps = inputCaps.substring(2, inputCaps.length);
 
         if(inputCaps.length === 0) //if trimming resulted to empty string
@@ -50,7 +50,7 @@ class Checker{
             if((inputCaps.charCodeAt(i) < 48 || inputCaps.charCodeAt(i) > 57) && (inputCaps.charCodeAt(i) < 65 || inputCaps.charCodeAt(i) > 70))
                 return null;
 
-        if(parseInt(inputCaps,16) < min || parseInt(inputCaps, 16) > max)
+        if(parseInt(inputCaps,16) < min || parseInt(inputCaps, 16) > max) //equivalent hex value exceeds valid range of 0x0 and 0x10FFFFF
             return null;
         
         return inputCaps;
