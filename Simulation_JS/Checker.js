@@ -5,13 +5,13 @@
  * prior to conversion to equivalent UTF value.
  */
 
-class Checker{
+ class Checker{
     TestChecker(){
         console.log("Checker online!");
     }
 
     constructor(){
-
+        this.TestChecker();
     }
     /**
      * Checks and validates input value if allowed to be 

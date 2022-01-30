@@ -9,13 +9,13 @@
  * 
  */
 
-class Unicode{
+ class Unicode{
 	TestUnicode(){
         console.log("Unicode online!");
 	}
 	
     constructor(){
-
+        this.TestUnicode();
     }
     /**
      * Sets new Unicode value for conversion to equivalent UTF8,-16,-32, and char values.
@@ -239,16 +239,18 @@ class Unicode{
      * @returns Label value of the given input (7,11,16,or 21)
      */
     findLabel(size){
-        if(size === 1) //1byte
-            return 7;
-        if(size === 2) //2bytes
-            return 11;
-        if(size === 3) //3bytes
-            return 16;
-        if(size === 4) //4bytes
-            return 21;
-        
-        return -1; //assumes invalid input
+        switch(size) {
+            case 1:
+                return 7;
+            case 2:
+                return 11;
+            case 3:
+                return 16;
+            case 4:
+                return 21;
+            default:
+                return -1;
+        }
     }
 
     /**
@@ -305,12 +307,17 @@ class Unicode{
         }
         //iterate through the constants and input char indexes
         for(var i = 0; i < range; i++) {
-            if(indexRef[idx][i] === -2) //constant -1
-                output += "0";
-            else if(indexRef[idx][i] === -1) //constant 0
-                output += "1";
-            else
-                output += input.charAt(indexRef[idx][i]) + ""; //input(idx)
+            switch(indexRef[idx][i]) {
+				case -2:
+					output += "0";
+					break;
+				case -1:
+					output += "1";
+					break;
+				default:
+					output += input.charAt(indexRef[idx][i]) + "";
+					break;
+			}
         }
         return output;
     }

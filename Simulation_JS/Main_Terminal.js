@@ -1,4 +1,4 @@
-import {Checker} from './Checker.js';
+import {Checker} from './Checker.js'
 import {Unicode} from './Unicode.js'
 
 //TEST AREA
