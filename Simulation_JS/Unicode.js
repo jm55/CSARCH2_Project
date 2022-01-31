@@ -9,13 +9,14 @@
  * 
  */
 
- class Unicode{
-	TestUnicode(){
-        console.log("Unicode online!");
-	}
-	
+class Unicode{
     constructor(){
         this.TestUnicode();
+        this.unicode = "";
+        this.utf8 = "";
+        this.utf16 = "";
+        this.utf32 = "";
+        this.unicodeChar = "";
     }
     /**
      * Sets new Unicode value for conversion to equivalent UTF8,-16,-32, and char values.
@@ -50,7 +51,7 @@
         if(this.unicodeChar.length === 0)
             this.unicodeChar = this.FindChar(this.unicode);
 
-        list = [this.unicode, this.utf8, this.utf16, this.utf32, this.unicodeChar]
+        list = [this.unicode, this.utf8, this.utf16, this.utf32, this.unicodeChar];
 
         return list;
     }
@@ -121,8 +122,10 @@
      * @returns Char equivalent of the input value.
      */
     FindChar(input){
-        return String.fromCharCode(parseInt(input,16));
+        return String.fromCharCode(parseInt(input,16));//turns out it is only capable of reading utf-16 values
+        //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCharCode 
     }
+
     /**
      * PRIVATE
      * Computes for the UTF8 equivalent of the input value
@@ -132,16 +135,9 @@
     FindUTF8(input){
         if(parseInt(input, 16) > parseInt("1FFFFF", 16)) //check if value is too big for UTF8
             return "N/A";
-        
-        var numVal = parseInt(input , 16); //hex to dec; validated, turns out that 'int' in js has x64 range
-        var binary = numVal.toString(2); //dec to bin; validated (String)
-
-        var size = this.findByteSize(input); //determine size of the input
-
-        binary = this.Resize(binary, 21); //resize bin to 21 bits
-        binary = this.buildBinaryUTF8(binary, this.findLabel(size)); //convert binary to utf8
-
-        return this.Resize(parseInt(binary , 2).toString(16).toUpperCase(),8); //return resulting hex value, resized to 8 hex digits
+        var binary = this.Resize(parseInt(input, 16).toString(2),21); //hex->dec->bin; validated (String) then resize to 21bits
+        binary = this.buildBinaryUTF8(binary, this.findLabel(this.findByteSize(input))); //convert binary to utf8
+        return this.Resize(parseInt(binary,2).toString(16).toUpperCase(),8); //return resulting hex value, resized to 8 hex digits
     }
 
     /**
@@ -151,25 +147,17 @@
      * @returns UTF16 equivalent of the input value
      */
     FindUTF16(input){
-        var output = this.Resize(input, 8);
-        var numVal = parseInt(input, 16);
-        
+        var numVal = parseInt(input, 16); //decimal equivalent of hex input
         if(numVal > parseInt("FFFF",16)){
-            output = "";
-
-            var tempVal = numVal - parseInt("010000",16); //subtract 0x10000 to the input value
-            
-            //convert to binary and split to left and right segments
-            var binary = this.Resize(tempVal.toString(2),20);
-            var binLeft = binary.substring(0,10);
-            var binRight = binary.substring(10,20); 
-            
-            var left = parseInt(binLeft,2) + parseInt("D800",16); //add left_bin and 0xD800
-            var right = parseInt(binRight,2) + parseInt("DC00",16); //add right_bin and 0xDC00
-
-            output += left.toString(16) + right.toString(16) + ""; //combine left and right hex values
-        }
-        return this.Resize(output,8).toUpperCase(); //return resulting hex value, resized to 8 hex digits
+            //0x10000 = 65536
+            //D800 = 55296
+            //DC00 = 56320
+            var binary = this.Resize((numVal-65536).toString(2),20); //subtract 0x10000 from input then convert to binary and split to left and right segments
+            var left = (parseInt(binary.substring(0,10),2) + 55296).toString(16); //add left_bin and 0xD800 return as hex
+            var right = (parseInt(binary.substring(10,20),2) + 56320).toString(16); //add right_bin and 0xDC00 return as hex
+            return this.Resize((left+right).toUpperCase(),8); //return resulting hex value, resized to 8 hex digits
+        } 
+        return this.Resize(input.toUpperCase(),8); 
     }
 
     /**
@@ -179,7 +167,7 @@
      * @returns UTF32 equivalent of the input value
      */
     FindUTF32(input){
-        return this.Resize(input, 8).toUpperCase(); //return the same input hex value, resized to 8 hex digits
+        return this.Resize(input.toUpperCase(),8); //return the same input hex value, resized to 8 hex digits
     }
 
     /**
@@ -192,16 +180,18 @@
      * @returns Resized equivalent of the input value
      */
     Resize(input, size, msb=false){
-        var output = "";
-        var m = input.substring(0,1);
-        if(input.length < size)
+        if(input.length >= size)
+            return input;
+        else{
+            var c = "0";
+            if(msb)
+                c = input.substring(0,1);
             for(var i = 0; i < size-input.length; i++) //create fill-in by difference off target size and input length
-                if(msb) //use msb as fill-in
-                    output+=m;
-                else //use 0 as fill-in
-                    output += "0";
-        return output+input; //return resized input
+                c += c.substring(0,1);
+            return c+input; //return resized input
+        }
     }
+
     /**
      * PRIVATE
      * Finds the byte size of a given hexadecimal input.
@@ -227,8 +217,8 @@
             return 3;
         else if(65536<=numVal && numVal<=2097151)
             return 4;
-
-        return -1;
+        else
+            return -1;
     }
 
     /**
@@ -261,7 +251,6 @@
      * @returns Binary UTF8 of the input 
      */
     buildBinaryUTF8(input, label){
-        var output = "";
         /**
          * Index Reference: points to the individual characters in String input
          * Note that -2 and -1 represent 0 and 1 respectively
@@ -286,41 +275,49 @@
             [-1,-1,-1,-1,-2,0,1,2,-1,-2,3,4,5,6,7,8,-1,-2,9,10,11,12,13,14,-1,-2,15,16,17,18,19,20] //11110xxx 10xxxxxx 10xxxxxx 10xxxxxx 32
         ];
 
+        var output = "";
         var idx = 0;
         var range = 0;
         
-        if(label === 7) {
-            idx = 0;
-            range = 8;
-        }
-        else if(label === 11) {
-            idx = 1;
-            range = 16;
-        }
-        else if(label === 16) {
-            idx = 2;
-            range = 24;
-        }
-        else if(label === 21) {
-            idx = 3;
-            range = 32;
+        switch(label){
+            case 7:
+                idx = 0;
+                range = 8;
+                break;
+            case 11:
+                idx = 1;
+                range = 16;
+                break;
+            case 16:
+                idx = 2;
+                range = 24;
+                break;
+            case 21:
+                idx = 3;
+                range = 32;
+                break;
+            default:
+                break;
         }
         //iterate through the constants and input char indexes
         for(var i = 0; i < range; i++) {
             switch(indexRef[idx][i]) {
 				case -2:
-					output += "0";
+					output += '0';
 					break;
 				case -1:
-					output += "1";
+					output += '1';
 					break;
 				default:
-					output += input.charAt(indexRef[idx][i]) + "";
+					output += input.charAt(indexRef[idx][i]);
 					break;
 			}
         }
         return output;
     }
+    TestUnicode(){
+        console.log("Unicode online!");
+	}
 }
 
 export {Unicode};

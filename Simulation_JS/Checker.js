@@ -6,12 +6,8 @@
  */
 
  class Checker{
-    TestChecker(){
-        console.log("Checker online!");
-    }
-
     constructor(){
-        this.TestChecker();
+        //this.TestChecker();
     }
     /**
      * Checks and validates input value if allowed to be 
@@ -66,6 +62,9 @@
         if(this.CheckInput(input) != null)
             return true;
         return false;
+    }
+    TestChecker(){
+        console.log("Checker online!");
     }
 }
 
