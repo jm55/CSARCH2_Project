@@ -90,16 +90,16 @@ Try executing [Main_Terminal.js](https://github.com/cyril-deguzman/ascii-convert
     import {Checker} from './Checker.js';
 	import {Unicode} from './Unicode.js';
 	
-	let _ = new Unicode();
-	let _ = new Unicode();
+	let foo = new Checker();
+	let bar = new Unicode();
     ```
 2. For React, use:
 	```
 	import './Checker.js';
 	import './Unicode.js';
 	
-	let _ = new Unicode();
-	let _ = new Unicode();
+	let foo = new Checker();
+	let bar = new Unicode();
     ```
 3. For demonstration, simply run `node Main_Terminal.js` to see a sample test run of the Unicode and Checker functionality. You may check outputs on this website: <https://r12a.github.io/app-conversion/>
 
