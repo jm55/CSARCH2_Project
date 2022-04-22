@@ -20,7 +20,7 @@ The goal of the project is to create an application that is capable of turning a
 ## Sample use:
 ```
 import {Checker} from './Checker.js';
-import {Unicode} from './Unicode.js'
+import {Unicode} from './Unicode.js';
 
 let c = new Checker();
 let u = new Unicode();
